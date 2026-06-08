@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant POS System — Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --dark: #0D0D0D;
+    --dark2: #1A1A1A;
+    --dark3: #242424;
+    --gold: #C9963A;
+    --gold-light: #E8B86D;
+    --gold-pale: #F5E9D3;
+    --cream: #FAF7F2;
+    --white: #FFFFFF;
+    --gray: #888888;
+    --light-gray: #E8E4DE;
+    --red: #C0392B;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,150,58,0.15) 0%, transparent 70%);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: #999;
+    font-weight: 300;
+    margin-top: 24px;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 40px auto;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, #555, transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 17px;
+    color: #555;
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  /* ── INTRO BLOCK ── */
+  .intro-block {
+    background: var(--dark);
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .intro-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .intro-inner .section-title { color: var(--white); }
+  .intro-inner .section-body { color: #999; }
+
+  .intro-points {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .intro-point {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .intro-point-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(201,150,58,0.12);
+    border: 1px solid rgba(201,150,58,0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .intro-point-text h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .intro-point-text p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.6;
+  }
+
+  /* ── FEATURES GRID ── */
+  .features-section {
+    background: var(--cream);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .features-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 70px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--light-gray);
+    border: 2px solid var(--light-gray);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--white);
+    padding: 36px 32px;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .feature-card:hover { background: #FDFAF5; }
+
+  .feature-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--light-gray);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .feature-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .feature-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .feature-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.7;
+  }
+
+  .feature-tag {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-top: 14px;
+  }
+
+  /* ── FLOW ── */
+  .flow-section {
+    background: var(--dark2);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .flow-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .flow-inner .section-title { color: var(--white); }
+  .flow-inner .section-body { color: #888; }
+  .flow-inner .section-label { color: var(--gold); }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  .flow-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .flow-circle {
+    width: 56px;
+    height: 56px;
+    background: var(--dark3);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-step h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .flow-step p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* ── WHO USES ── */
+  .users-section {
+    background: var(--cream);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .users-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .user-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 40px 32px;
+    border: 1px solid var(--light-gray);
+  }
+
+  .user-card.featured {
+    background: var(--dark);
+    border-color: var(--gold);
+  }
+
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .user-card.featured .user-avatar {
+    background: rgba(201,150,58,0.15);
+  }
+
+  .user-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .user-card.featured h3 { color: var(--white); }
+
+  .user-role-badge {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .user-card.featured .user-role-badge {
+    background: rgba(201,150,58,0.15);
+  }
+
+  .user-perms {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .user-perms li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .user-card.featured .user-perms li { color: #999; }
+
+  .user-perms li::before {
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .user-card.featured .user-perms li::before {
+    background: rgba(201,150,58,0.2);
+    color: var(--gold);
+  }
+
+  /* ── REPORTS ── */
+  .reports-section {
+    background: var(--dark);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .reports-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .reports-inner .section-title { color: var(--white); }
+  .reports-inner .section-body { color: #888; margin-bottom: 40px; }
+  .reports-inner .section-label { color: var(--gold); }
+
+  .report-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .report-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--dark2);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .report-item-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(201,150,58,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .report-item-text h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .report-item-text p {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .mock-chart {
+    background: var(--dark2);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 28px;
+  }
+
+  .mock-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .mock-chart-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .mock-chart-sub {
+    font-size: 11px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  .mock-chart-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  .mock-chart-change {
+    font-size: 11px;
+    color: #4CAF50;
+    text-align: right;
+    margin-top: 2px;
+  }
+
+  .chart-bars {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    height: 120px;
+  }
+
+  .chart-bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .chart-bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    background: var(--dark3);
+    transition: background 0.2s;
+  }
+
+  .chart-bar.active { background: var(--gold); }
+
+  .chart-bar-label {
+    font-size: 10px;
+    color: #555;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-section {
+    background: var(--cream);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .timeline-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: var(--light-gray);
+  }
+
+  .timeline-item {
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    margin: 0 auto 24px;
+    position: relative;
+    z-index: 1;
+    border: 2px solid var(--light-gray);
+    background: var(--cream);
+    color: var(--gray);
+  }
+
+  .timeline-item.active .timeline-dot {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--white);
+  }
+
+  .timeline-item.done .timeline-dot {
+    background: var(--dark);
+    border-color: var(--dark);
+    color: var(--gold);
+  }
+
+  .timeline-weeks {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .timeline-item h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .timeline-tasks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .timeline-tasks li {
+    font-size: 13px;
+    color: #777;
+    padding: 6px 10px;
+    background: var(--white);
+    border-radius: 6px;
+    border: 1px solid var(--light-gray);
+    text-align: center;
+  }
+
+  /* ── CLOSING ── */
+  .closing-section {
+    background: var(--dark);
+    padding: 120px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(201,150,58,0.12) 0%, transparent 70%);
+  }
+
+  .closing-section .section-label { color: var(--gold); margin-bottom: 20px; }
+
+  .closing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .closing-title span { color: var(--gold); }
+
+  .closing-body {
+    font-size: 17px;
+    color: #777;
+    max-width: 520px;
+    margin: 0 auto 50px;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .contact-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    padding: 20px 32px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    min-width: 180px;
+  }
+
+  .contact-item-label {
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .contact-item-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .hero { min-height: auto; padding: 60px 40px; break-after: page; }
+    .scroll-hint { display: none; }
+    section, .intro-block, .features-section, .flow-section,
+    .users-section, .reports-section, .timeline-section, .closing-section { padding: 60px 40px; }
+    .flow-steps, .timeline { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .intro-inner, .reports-inner { grid-template-columns: 1fr; gap: 40px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .users-grid { grid-template-columns: 1fr; }
+    .flow-steps { grid-template-columns: 1fr; }
+    .flow-steps::before { display: none; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .features-header { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">Custom Built · Single Branch</div>
+  <h1>Restaurant<span>POS System</span></h1>
+  <p class="hero-sub">A modern, all-in-one point of sale system built specifically for your restaurant — faster service, smarter management, better insights.</p>
+  <div class="hero-divider"></div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Core Modules</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2</div>
+      <div class="hero-stat-label">User Roles</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">Weeks to Deliver</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">1</div>
+      <div class="hero-stat-label">System for Everything</div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</div>
+
+<!-- ── INTRO ── -->
+<div class="intro-block">
+  <div class="intro-inner">
+    <div>
+      <p class="section-label" style="color:var(--gold)">About This Project</p>
+      <h2 class="section-title" style="color:var(--white)">Your restaurant, powered by smart software</h2>
+      <p class="section-body">Your current system is being replaced with something built just for you. Not a generic product off the shelf — a custom system designed around how your restaurant actually works, every day.</p>
+    </div>
+    <div class="intro-points">
+      <div class="intro-point">
+        <div class="intro-point-icon">🎯</div>
+        <div class="intro-point-text">
+          <h4>Built for your restaurant only</h4>
+          <p>Not a template. Every feature is designed around your workflow and your staff's needs.</p>
+        </div>
+      </div>
+      <div class="intro-point">
+        <div class="intro-point-icon">⚡</div>
+        <div class="intro-point-text">
+          <h4>Faster than your old system</h4>
+          <p>Orders go from table to kitchen instantly. No more manual processes or waiting for slow software.</p>
+        </div>
+      </div>
+      <div class="intro-point">
+        <div class="intro-point-icon">📱</div>
+        <div class="intro-point-text">
+          <h4>Simple to use for all staff</h4>
+          <p>Clean interface designed so any staff member can learn it in minutes — no technical experience needed.</p>
+        </div>
+      </div>
+      <div class="intro-point">
+        <div class="intro-point-icon">🔒</div>
+        <div class="intro-point-text">
+          <h4>Your data, secured</h4>
+          <p>All orders, payments and sales reports are saved and can only be accessed by authorised users.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<div class="features-section">
+  <div class="features-inner">
+    <div class="features-header">
+      <div>
+        <p class="section-label">What's Included</p>
+        <h2 class="section-title">Five powerful modules, one system</h2>
+      </div>
+      <p class="section-body">Every part of your restaurant operation is covered — from the moment a customer walks in to the moment they pay and leave.</p>
+    </div>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-icon-row"><span class="feature-icon">🛒</span></div>
+        <h3>Order Management</h3>
+        <p>Staff select a table, browse the full menu, add items with quantities, and send the order to the kitchen with a single tap. Multiple tables can be open at the same time.</p>
+        <span class="feature-tag">Core Feature</span>
+      </div>
+
+
+
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-icon-row"><span class="feature-icon">🧾</span></div>
+        <h3>Billing & Receipts</h3>
+        <p>Bills are automatically generated from the order — no manual adding. The bill shows all items, quantities, subtotal, tax, and total. Discounts can be applied. Receipts can be printed or saved as PDF.</p>
+        <span class="feature-tag">Core Feature</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-icon-row"><span class="feature-icon">💳</span></div>
+        <h3>Payment Tracking</h3>
+        <p>Cashier records whether payment is by cash or card. For cash, the system automatically calculates change. Every payment is logged with a timestamp and linked to its order permanently.</p>
+        <span class="feature-tag">Core Feature</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-icon-row"><span class="feature-icon">📦</span></div>
+        <h3>Inventory Control</h3>
+        <p>Track all your stock items — ingredients, supplies, and anything else. Get automatic alerts when items fall below a minimum level so you never run out at the wrong time.</p>
+        <span class="feature-tag">Management</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-icon-row"><span class="feature-icon">📊</span></div>
+        <h3>Sales Reports</h3>
+        <p>View how much revenue was made today, this week, or this month. See your best-selling dishes, busiest hours, and total order counts — all from one screen. Reports can be exported.</p>
+        <span class="feature-tag">Analytics</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── FLOW ── -->
+<div class="flow-section">
+  <div class="flow-inner">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-title" style="color:var(--white)">From customer arrival to payment done</h2>
+    <p class="section-body">The entire restaurant process is handled in 5 simple steps — all connected, all automatic.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-circle">🪑</div>
+        <h4>Customer Arrives</h4>
+        <p>Staff opens the system and selects the table number to start a new order</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-circle">📋</div>
+        <h4>Order is Taken</h4>
+        <p>Items are picked from the digital menu with quantities and any special notes</p>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-circle">🧾</div>
+        <h4>Bill Generated</h4>
+        <p>One click generates the full bill automatically with all items and totals</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-circle">✅</div>
+        <h4>Payment Done</h4>
+        <p>Payment recorded, receipt printed, table cleared and ready for next customer</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── USERS ── -->
+<div class="users-section">
+  <div class="users-inner">
+    <p class="section-label">User Roles</p>
+    <h2 class="section-title">The right access for every person</h2>
+    <p class="section-body">Two user types — each with their own login and access level so your staff only sees what they need.</p>
+
+    <div class="users-grid">
+
+      <div class="user-card featured">
+        <div class="user-avatar">👤</div>
+        <h3>Admin</h3>
+        <span class="user-role-badge">Owner / Manager</span>
+        <ul class="user-perms">
+          <li>Full access to all modules</li>
+          <li>Manage menu items and prices</li>
+          <li>View and export all sales reports</li>
+          <li>Manage inventory and stock levels</li>
+          <li>Add or remove staff accounts</li>
+          <li>Apply discounts to any order</li>
+          <li>Change system settings</li>
+        </ul>
+      </div>
+
+      <div class="user-card">
+        <div class="user-avatar">💁</div>
+        <h3>Cashier</h3>
+        <span class="user-role-badge">Counter Staff</span>
+        <ul class="user-perms">
+          <li>Take and manage table orders</li>
+          <li>Generate bills for any table</li>
+          <li>Process cash and card payments</li>
+          <li>Print or save receipts</li>
+          <li>View open orders across tables</li>
+          <li>Cannot access reports or settings</li>
+        </ul>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- ── REPORTS ── -->
+<div class="reports-section">
+  <div class="reports-inner">
+    <div>
+      <p class="section-label">Reports & Insights</p>
+      <h2 class="section-title">Know your restaurant inside out</h2>
+      <p class="section-body">As the owner, you get a full picture of your business — revenue, popular dishes, stock status, and more — any time you need it.</p>
+      <div class="report-items">
+        <div class="report-item">
+          <div class="report-item-icon">💰</div>
+          <div class="report-item-text">
+            <h4>Daily, Weekly & Monthly Revenue</h4>
+            <p>See your exact earnings for any period at a glance</p>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-item-icon">🏆</div>
+          <div class="report-item-text">
+            <h4>Best-Selling Items</h4>
+            <p>Know which dishes are most popular so you can plan your menu</p>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-item-icon">📦</div>
+          <div class="report-item-text">
+            <h4>Low Stock Alerts</h4>
+            <p>Automatic warnings when any ingredient or supply runs low</p>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-item-icon">🧾</div>
+          <div class="report-item-text">
+            <h4>Full Order History</h4>
+            <p>Every order and payment ever made, searchable and exportable</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mock-chart">
+      <div class="mock-chart-header">
+        <div>
+          <div class="mock-chart-title">Monthly Revenue</div>
+          <div class="mock-chart-sub">Last 7 months</div>
+        </div>
+        <div>
+          <div class="mock-chart-value">Rs. 284K</div>
+          <div class="mock-chart-change">↑ 18% from last month</div>
+        </div>
+      </div>
+      <div class="chart-bars">
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:55%"></div><span class="chart-bar-label">Aug</span></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:70%"></div><span class="chart-bar-label">Sep</span></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:60%"></div><span class="chart-bar-label">Oct</span></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:80%"></div><span class="chart-bar-label">Nov</span></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:65%"></div><span class="chart-bar-label">Dec</span></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:75%"></div><span class="chart-bar-label">Jan</span></div>
+        <div class="chart-bar-wrap active"><div class="chart-bar active" style="height:95%"></div><span class="chart-bar-label" style="color:var(--gold)">Feb</span></div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.06); margin-top:24px; padding-top:20px; display:flex; gap:24px;">
+        <div>
+          <div style="font-size:11px;color:#555;margin-bottom:4px;">Total Orders</div>
+          <div style="font-size:20px;font-weight:600;color:var(--white)">1,842</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#555;margin-bottom:4px;">Avg. Bill</div>
+          <div style="font-size:20px;font-weight:600;color:var(--white)">Rs. 1,540</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#555;margin-bottom:4px;">Top Dish</div>
+          <div style="font-size:20px;font-weight:600;color:var(--gold)">Rice & Curry</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TIMELINE ── -->
+<div class="timeline-section">
+  <div class="timeline-inner">
+    <div class="timeline-header">
+      <p class="section-label">Delivery Plan</p>
+      <h2 class="section-title">Built in 4 phases over 6 weeks</h2>
+      <p class="section-body" style="margin:0 auto; text-align:center;">You will see progress at every stage — not just a finished product at the end.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item done">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-weeks">Week 1 – 2</div>
+        <h4>Foundation</h4>
+        <ul class="timeline-tasks">
+          <li>User login & roles</li>
+          <li>Menu management</li>
+          <li>System UI design</li>
+          <li>Database setup</li>
+        </ul>
+      </div>
+      <div class="timeline-item active">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-weeks">Week 3 – 4</div>
+        <h4>Core Features</h4>
+        <ul class="timeline-tasks">
+          <li>Order taking system</li>
+          <li>Order management system</li>
+          <li>Billing & receipts</li>
+          <li>Payment recording</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-weeks">Week 5</div>
+        <h4>Full System</h4>
+        <ul class="timeline-tasks">
+          <li>Inventory management</li>
+          <li>Sales reports</li>
+          <li>Low stock alerts</li>
+          <li>Full system testing</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-weeks">Week 6</div>
+        <h4>Handover</h4>
+        <ul class="timeline-tasks">
+          <li>Final delivery</li>
+          <li>System installation</li>
+          <li>Staff training</li>
+          <li>30 days support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CLOSING ── -->
+<div class="closing-section">
+  <p class="section-label">Ready to Begin</p>
+  <h2 class="closing-title">Let's build your<br><span>new system</span></h2>
+  <p class="closing-body">This is a complete, working system built specifically for your restaurant. No subscriptions, no monthly software fees — just a system that belongs to you.</p>
+  <div class="contact-row">
+    <div class="contact-item">
+      <span class="contact-item-label">Developed by</span>
+      <span class="contact-item-value">Nimesh Milan Dhananjaya</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Contact</span>
+      <span class="contact-item-value">0789 131 948</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Prepared for</span>
+      <span class="contact-item-value">________________________</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
