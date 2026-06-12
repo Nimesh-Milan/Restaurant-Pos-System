@@ -976,7 +976,503 @@ body {
   letter-spacing: -0.2px;
 }
 
-/* ── RESPONSIVE — TABLET (≤900px) ── */
+/* ── FEATURE LEGEND ── */
+.feature-legend {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--mid);
+  font-weight: 400;
+}
+.legend-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+.legend-dot.core { background: #3DAB68; }
+.legend-dot.pro  { background: #4A8FD4; }
+.legend-dot.wow  { background: var(--gold); }
+
+/* ── MODULE BLOCKS ── */
+.module-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.module-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  background: var(--cream2);
+  border-bottom: 1px solid var(--border);
+}
+.module-icon-wrap {
+  font-size: 24px;
+  width: 48px; height: 48px;
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.module-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+  margin-bottom: 3px;
+}
+.module-count {
+  font-size: 11px;
+  color: var(--mid);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+.module-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.mf-item {
+  display: flex;
+  gap: 14px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  align-items: flex-start;
+}
+.mf-item:nth-child(even) { border-right: none; }
+.mf-item:nth-last-child(-n+2) { border-bottom: none; }
+.mf-item:last-child:nth-child(odd) { border-bottom: none; border-right: none; grid-column: 1 / -1; }
+.mf-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.mf-dot.core { background: #3DAB68; }
+.mf-dot.pro  { background: #4A8FD4; }
+.mf-dot.wow  { background: var(--gold); }
+.mf-item strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 3px;
+}
+.mf-item p {
+  font-size: 12.5px;
+  color: var(--mid);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── FEATURE SUMMARY ── */
+.feature-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.fs-block {
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+}
+.core-block { background: rgba(61,171,104,0.08); border: 1px solid rgba(61,171,104,0.2); }
+.pro-block  { background: rgba(74,143,212,0.08); border: 1px solid rgba(74,143,212,0.2); }
+.wow-block  { background: var(--gold-pale); border: 1px solid rgba(184,135,58,0.25); }
+.fs-num {
+  font-family: 'Fraunces', serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.core-block .fs-num { color: #3DAB68; }
+.pro-block .fs-num  { color: #4A8FD4; }
+.wow-block .fs-num  { color: var(--gold); }
+.fs-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.fs-sub   { font-size: 12px; color: var(--mid); font-weight: 300; }
+
+/* ── UI MOCKUPS ── */
+.ui-mockup-wrap {
+  margin-bottom: 40px;
+}
+.ui-mockup-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+.ui-mockup {
+  background: #1A1A2E;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+}
+.um-topbar {
+  background: #111122;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.um-dot { width: 10px; height: 10px; border-radius: 50%; }
+.um-dot.r { background: #FF5F56; }
+.um-dot.a { background: #FFBD2E; }
+.um-dot.g { background: #27C93F; }
+.um-title {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-left: 8px;
+  letter-spacing: 0.3px;
+}
+
+/* Login mockup */
+.um-login-body {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.um-logo { font-size: 36px; margin-bottom: 16px; }
+.um-login-title { font-size: 18px; font-weight: 600; color: white; margin-bottom: 4px; }
+.um-login-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+.um-role-btns { display: flex; gap: 10px; margin-bottom: 24px; width: 100%; }
+.um-role {
+  flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; color: rgba(255,255,255,0.45); font-size: 12px;
+}
+.um-role.active { border-color: var(--gold); background: rgba(184,135,58,0.1); color: var(--gold-light); }
+.um-role-icon { font-size: 22px; }
+.um-pin-label { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.um-pin-dots { display: flex; gap: 12px; margin-bottom: 20px; }
+.um-pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); }
+.um-pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+.um-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+.um-key {
+  background: rgba(255,255,255,0.06); border-radius: 10px; padding: 12px;
+  text-align: center; font-size: 16px; font-weight: 500; color: white; cursor: pointer;
+}
+.um-key.ghost { background: transparent; color: rgba(255,255,255,0.3); }
+
+/* Order mockup */
+.um-order-body {
+  display: grid; grid-template-columns: 1fr 320px;
+  min-height: 360px;
+}
+.um-menu-panel { padding: 16px; border-right: 1px solid rgba(255,255,255,0.06); }
+.um-cat-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.um-cat {
+  padding: 5px 14px; border-radius: 100px; font-size: 12px; cursor: pointer;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+}
+.um-cat.active { background: var(--gold); color: var(--ink); font-weight: 600; }
+.um-menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.um-menu-item {
+  background: rgba(255,255,255,0.04); border-radius: 12px; padding: 12px 8px; text-align: center;
+  border: 1px solid rgba(255,255,255,0.06); cursor: pointer; position: relative;
+}
+.um-menu-item.selected { border-color: var(--gold); background: rgba(184,135,58,0.1); }
+.um-menu-item.soldout { opacity: 0.45; }
+.um-item-img { font-size: 26px; margin-bottom: 6px; }
+.um-item-name { font-size: 11px; color: rgba(255,255,255,0.7); margin-bottom: 3px; font-weight: 500; }
+.um-item-price { font-size: 11px; color: var(--gold-light); }
+.um-item-badge {
+  position: absolute; top: -6px; right: -6px; background: var(--gold); color: var(--ink);
+  border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.um-soldout-tag {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center;
+  justify-content: center; border-radius: 12px; font-size: 9px; color: rgba(255,255,255,0.5);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.um-order-panel { padding: 16px; display: flex; flex-direction: column; }
+.um-order-title { font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.um-order-list { flex: 1; }
+.um-order-row { display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(255,255,255,0.7); padding: 6px 0; }
+.um-order-row.total-row { font-size: 12px; color: rgba(255,255,255,0.45); }
+.um-order-row.grand-row { font-size: 15px; font-weight: 600; color: var(--gold-light); padding: 8px 0; }
+.um-qty { color: rgba(255,255,255,0.3); font-size: 11px; }
+.um-amt { color: rgba(255,255,255,0.7); }
+.note-row { font-size: 11px; }
+.um-note { color: rgba(184,135,58,0.6); font-style: italic; font-size: 11px; }
+.um-order-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0; }
+.um-order-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+/* Table map mockup */
+.um-table-legend { display: flex; gap: 16px; padding: 10px 16px; font-size: 11px; background: #111122; }
+.um-tleg { color: rgba(255,255,255,0.45); }
+.um-tleg.free { color: #3DAB68; }
+.um-tleg.occ  { color: #E05555; }
+.um-tleg.bill { color: #F0A020; }
+.um-table-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 16px; }
+.um-table {
+  border-radius: 12px; padding: 18px 12px; text-align: center;
+  border: 2px solid rgba(255,255,255,0.08); cursor: pointer;
+}
+.um-table.free  { border-color: rgba(61,171,104,0.4); background: rgba(61,171,104,0.08); }
+.um-table.occ   { border-color: rgba(224,85,85,0.4); background: rgba(224,85,85,0.08); }
+.um-table.bill  { border-color: rgba(240,160,32,0.4); background: rgba(240,160,32,0.08); }
+.um-t-num { font-size: 15px; font-weight: 600; color: white; display: block; margin-bottom: 4px; }
+.um-t-sub { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+/* Bill mockup */
+.um-bill-body { display: grid; grid-template-columns: 1fr 280px; min-height: 360px; }
+.um-receipt { padding: 20px; border-right: 1px solid rgba(255,255,255,0.06); font-family: 'Courier New', monospace; }
+.um-receipt-head { text-align: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.15); }
+.um-rname { font-size: 14px; font-weight: 600; color: white; }
+.um-rsub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.um-receipt-items { margin-bottom: 8px; }
+.um-ri { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.6); padding: 3px 0; }
+.um-ri.sub { color: rgba(255,255,255,0.35); font-size: 11px; }
+.um-ri.discount { color: #E05555; font-size: 11px; }
+.um-ri.total { font-size: 14px; font-weight: 700; color: var(--gold-light); padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4px; }
+.um-receipt-divider { font-size: 10px; color: rgba(255,255,255,0.15); margin: 8px 0; text-align: center; letter-spacing: 2px; }
+.um-payment-panel { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.um-pay-title { font-size: 10.5px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; }
+.um-pay-methods { display: flex; gap: 8px; }
+.um-pay-method { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; cursor: pointer; }
+.um-pay-method.active { border-color: var(--gold); background: rgba(184,135,58,0.1); color: var(--gold-light); }
+.um-cash-input { background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; font-size: 16px; font-weight: 600; color: white; }
+.um-change-row { display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.5); padding: 4px 0; }
+.um-change-val { color: #3DAB68; font-weight: 600; }
+
+/* Reports mockup */
+.um-reports-body { padding: 16px; }
+.um-report-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.um-kpi { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.06); }
+.um-kpi.gold { border-color: rgba(184,135,58,0.3); background: rgba(184,135,58,0.07); }
+.um-kpi.green { border-color: rgba(61,171,104,0.3); background: rgba(61,171,104,0.07); }
+.um-kpi-val { font-size: 17px; font-weight: 700; color: white; margin-bottom: 3px; }
+.um-kpi.gold .um-kpi-val { color: var(--gold-light); }
+.um-kpi.green .um-kpi-val { color: #3DAB68; }
+.um-kpi-lbl { font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.8px; }
+.um-report-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.um-chart-block { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 14px; border: 1px solid rgba(255,255,255,0.06); }
+.um-chart-title { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+.um-chart-bars-sm { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+.um-bar-sm { flex: 1; background: rgba(255,255,255,0.1); border-radius: 3px 3px 0 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.um-bar-sm.hi { background: var(--gold); }
+.um-bar-sm span { font-size: 8px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 4px; }
+.um-top-items { display: flex; flex-direction: column; gap: 8px; }
+.um-ti { display: flex; align-items: center; gap: 8px; }
+.um-ti-rank { font-size: 10px; color: var(--gold); font-weight: 700; width: 14px; flex-shrink: 0; }
+.um-ti-name { font-size: 11px; color: rgba(255,255,255,0.6); width: 80px; flex-shrink: 0; }
+.um-ti-bar { height: 6px; background: rgba(184,135,58,0.5); border-radius: 3px; }
+.um-report-actions { display: flex; gap: 8px; }
+
+/* shared button styles */
+.um-btn {
+  padding: 10px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; cursor: pointer; text-align: center; flex: 1;
+}
+.um-btn.ghost { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+.um-btn.primary { background: var(--gold); color: var(--ink); font-weight: 600; }
+.um-btn.wide { width: 100%; flex: unset; margin-top: 8px; padding: 12px; font-size: 13px; }
+.um-btn.sm { padding: 8px 14px; font-size: 11px; }
+
+/* ══ FLOW REDESIGN ══ */
+.flow-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 72px;
+}
+.flow-track { position: relative; display: flex; flex-direction: column; gap: 0; }
+.flow-track-line {
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 1px; background: rgba(255,255,255,0.07); transform: translateX(-50%);
+}
+.ft-step {
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  gap: 0;
+  align-items: start;
+  margin-bottom: 4px;
+}
+.ft-step .ft-content { grid-column: 1; text-align: right; }
+.ft-step.right .ft-content { grid-column: 3; text-align: left; }
+.ft-node {
+  grid-column: 2; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 16px 0; position: relative; z-index: 2;
+}
+.ft-icon {
+  font-size: 22px; width: 48px; height: 48px;
+  background: var(--ink2); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.ft-num { font-family: 'Fraunces', serif; font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 2px; }
+.ft-content {
+  padding: 18px 22px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; margin: 10px 0;
+}
+.ft-content h4 { font-size: 13.5px; font-weight: 600; color: var(--white); margin-bottom: 7px; }
+.ft-content p  { font-size: 12px; color: rgba(255,255,255,0.33); line-height: 1.7; font-weight: 300; }
+.ft-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.ft-step .ft-tags { justify-content: flex-end; }
+.ft-step.right .ft-tags { justify-content: flex-start; }
+.ft-tag {
+  font-size: 9.5px; background: rgba(184,135,58,0.12); color: var(--gold);
+  border-radius: 100px; padding: 3px 9px; font-weight: 500;
+}
+
+/* ══ USERS REDESIGN ══ */
+.user-card-top { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.user-card-top .user-avatar-ring { margin-bottom: 0; }
+.user-card-top h3 { margin-bottom: 0; }
+.user-note {
+  margin-top: 16px; font-size: 11.5px; padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: var(--gold); opacity: 0.7; font-style: italic;
+}
+.user-card .user-note { border-color: var(--border); color: var(--mid); opacity: 1; }
+.perm-dot.perm-no { background: #E05555; opacity: 0.6; }
+.access-matrix {
+  margin-top: 40px; background: var(--white);
+  border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+}
+.am-title {
+  padding: 16px 22px; font-size: 10.5px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--mid); background: var(--cream2);
+  border-bottom: 1px solid var(--border);
+}
+.am-grid { display: grid; grid-template-columns: 1fr 130px 130px; }
+.am-header {
+  padding: 11px 18px; font-size: 10.5px; font-weight: 600; color: var(--mid);
+  text-transform: uppercase; letter-spacing: 1px;
+  background: var(--cream2); border-bottom: 1px solid var(--border); text-align: center;
+}
+.am-header:first-child { text-align: left; }
+.am-row-label {
+  padding: 12px 18px; font-size: 13px; color: var(--ink);
+  border-bottom: 1px solid var(--border); display: flex; align-items: center;
+}
+.am-cell {
+  padding: 12px 18px; font-size: 12px; text-align: center;
+  border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-weight: 500;
+}
+.am-cell.yes { color: #3DAB68; background: rgba(61,171,104,0.04); }
+.am-cell.no  { color: #aaa; }
+.am-row-label:last-of-type, .am-cell:nth-last-child(-n+3) { border-bottom: none; }
+
+/* ══ REPORTS REDESIGN ══ */
+.reports-inner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.reports-left .section-label { opacity: 0.7; }
+.reports-left .section-title { color: var(--white); margin-bottom: 14px; }
+.reports-left .section-body  { color: rgba(255,255,255,0.35); margin-bottom: 24px; }
+.report-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  background: rgba(255,255,255,0.04); border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.report-card { display: flex; align-items: flex-start; gap: 12px; padding: 16px 16px; background: var(--ink2); }
+.full-width-card { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,0.05); }
+.report-card .report-icon {
+  width: 34px; height: 34px; background: rgba(184,135,58,0.1); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+}
+.report-card h4 { font-size: 12.5px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
+.report-card p  { font-size: 11.5px; color: rgba(255,255,255,0.28); line-height: 1.6; font-weight: 300; }
+.reports-right  { display: flex; flex-direction: column; gap: 20px; }
+.heatmap-block {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px; padding: 20px;
+}
+.heatmap-title { font-size: 10px; color: rgba(255,255,255,0.28); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.heatmap-labels-x { display: grid; grid-template-columns: 40px repeat(7, 1fr); gap: 3px; margin-bottom: 3px; }
+.heatmap-labels-x span { font-size: 9px; color: rgba(255,255,255,0.22); text-align: center; }
+.heatmap-grid { display: grid; grid-template-columns: 40px repeat(7, 1fr); gap: 3px; }
+.hm-y { font-size: 8.5px; color: rgba(255,255,255,0.2); display: flex; align-items: center; }
+.hm-cell { border-radius: 3px; height: 18px; }
+.hm-cell.l1 { background: rgba(184,135,58,0.12); }
+.hm-cell.l2 { background: rgba(184,135,58,0.25); }
+.hm-cell.l3 { background: rgba(184,135,58,0.42); }
+.hm-cell.l4 { background: rgba(184,135,58,0.65); }
+.hm-cell.l5 { background: rgba(184,135,58,0.9); }
+.heatmap-legend { display: flex; align-items: center; gap: 4px; margin-top: 9px; font-size: 9.5px; color: rgba(255,255,255,0.22); }
+.hm-l { width: 16px; height: 7px; border-radius: 2px; }
+.hm-l.l1 { background: rgba(184,135,58,0.15); } .hm-l.l2 { background: rgba(184,135,58,0.3); }
+.hm-l.l3 { background: rgba(184,135,58,0.5); }  .hm-l.l4 { background: rgba(184,135,58,0.7); }
+.hm-l.l5 { background: rgba(184,135,58,0.9); }
+
+/* ══ TIMELINE REDESIGN ══ */
+.tl-progress-wrap { margin-bottom: 48px; }
+.tl-progress-bar { height: 5px; background: var(--border); border-radius: 100px; overflow: hidden; margin-bottom: 10px; }
+.tl-prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 100px; }
+.tl-progress-labels { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--mid); font-weight: 500; }
+.phases.six-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.phase-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.phase-status { font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; }
+.done-badge     { background: rgba(14,14,14,0.08); color: var(--ink); }
+.now-badge      { background: var(--gold); color: var(--ink); }
+.upcoming-badge { background: var(--border); color: var(--mid); }
+.phase-goal     { font-size: 12px; color: var(--mid); font-style: italic; margin-bottom: 14px; line-height: 1.6; font-weight: 300; }
+.phase-badges   { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.pbadge { font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
+.pbadge.core     { background: rgba(61,171,104,0.12); color: #3DAB68; }
+.pbadge.pro      { background: rgba(74,143,212,0.12); color: #4A8FD4; }
+.pbadge.wow      { background: var(--gold-pale); color: var(--gold); }
+.pbadge.handover { background: rgba(14,14,14,0.07); color: var(--ink); }
+.phase-deliverable { margin-top: 12px; font-size: 11px; color: var(--gold); font-weight: 500; opacity: 0.85; }
+.tl-guarantee {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  margin-top: 48px; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; background: var(--white);
+}
+.tl-g-item { padding: 22px 20px; display: flex; gap: 12px; align-items: flex-start; border-right: 1px solid var(--border); }
+.tl-g-item:last-child { border-right: none; }
+.tl-g-icon  { font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.tl-g-item strong { font-size: 12.5px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 4px; }
+.tl-g-item span   { font-size: 11.5px; color: var(--mid); line-height: 1.55; font-weight: 300; }
+
+/* ══ TECH SECTION ══ */
+.tech-section { background: var(--ink2); padding: 110px 48px; }
+.tech-inner   { max-width: 1160px; margin: 0 auto; }
+.tech-header  { max-width: 560px; margin-bottom: 52px; }
+.tech-header .section-label { opacity: 0.7; }
+.tech-header .section-title { color: var(--white); margin-bottom: 14px; }
+.tech-header .section-body  { color: rgba(255,255,255,0.35); }
+.tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.tech-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 10px;
+}
+.tech-card-icon { font-size: 28px; line-height: 1; }
+.tech-card h4   { font-size: 13.5px; font-weight: 600; color: var(--white); }
+.tech-card p    { font-size: 12px; color: rgba(255,255,255,0.32); line-height: 1.7; font-weight: 300; flex: 1; }
+.tech-pill { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); background: rgba(184,135,58,0.1); padding: 3px 9px; border-radius: 100px; align-self: flex-start; }
+.tech-b4-note { display: flex; gap: 20px; align-items: flex-start; background: rgba(184,135,58,0.06); border: 1px solid rgba(184,135,58,0.18); border-radius: 16px; padding: 22px 26px; }
+.b4-icon { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.tech-b4-note strong { font-size: 13.5px; font-weight: 600; color: var(--white); display: block; margin-bottom: 6px; }
+.tech-b4-note p      { font-size: 12.5px; color: rgba(255,255,255,0.38); line-height: 1.75; font-weight: 300; }
+
+/* ══ CLOSING REDESIGN ══ */
+.closing-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.closing-stats { display: flex; align-items: center; gap: 0; margin: 0 auto 56px; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; overflow: hidden; }
+.cs-item { padding: 20px 32px; text-align: center; display: flex; flex-direction: column; gap: 5px; }
+.cs-num  { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; color: var(--gold-light); line-height: 1; }
+.cs-lbl  { font-size: 10px; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
+.cs-div  { width: 1px; height: 52px; background: rgba(255,255,255,0.07); flex-shrink: 0; }
+
+/* ══ MODULE RESPONSIVE ══ */
 @media (max-width: 900px) {
   /* Hero */
   .hero-main { padding: 80px 32px 48px; }
@@ -994,6 +1490,19 @@ body {
   .features-section { padding: 80px 32px; }
   .features-top { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
   .features-grid { grid-template-columns: 1fr 1fr; }
+  .module-features { grid-template-columns: 1fr; }
+  .mf-item { border-right: none !important; }
+  .mf-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .mf-item:last-child { border-bottom: none; }
+  .feature-summary { grid-template-columns: 1fr; }
+
+  /* UI Mockups */
+  .um-order-body { grid-template-columns: 1fr; }
+  .um-order-panel { border-top: 1px solid rgba(255,255,255,0.06); }
+  .um-menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .um-bill-body { grid-template-columns: 1fr; }
+  .um-report-kpis { grid-template-columns: repeat(2, 1fr); }
+  .um-report-charts { grid-template-columns: 1fr; }
 
   /* Flow */
   .flow-section { padding: 80px 32px; }
@@ -1002,10 +1511,13 @@ body {
   .flow-step:nth-child(odd) { border-right: 1px solid var(--border-dark); }
   .flow-step:nth-last-child(-n+2) { border-bottom: none; }
   .flow-step-arrow { display: none; }
+  .flow-header { grid-template-columns: 1fr; gap: 16px; }
 
   /* Users */
   .users-section { padding: 80px 32px; }
   .users-grid { grid-template-columns: 1fr; }
+  .access-matrix { overflow-x: auto; }
+  .am-grid { min-width: 600px; }
 
   /* Reports */
   .reports-section { padding: 80px 32px; }
@@ -1014,14 +1526,23 @@ body {
   /* Timeline */
   .timeline-section { padding: 80px 32px; }
   .phases { grid-template-columns: 1fr 1fr; }
+  .phases.six-col { grid-template-columns: 1fr 1fr; }
+  .tl-guarantee { grid-template-columns: 1fr 1fr; }
+  .tl-g-item { border-bottom: 1px solid var(--border); }
+  .tl-g-item:nth-child(even) { border-right: none; }
+
+  /* Tech */
+  .tech-grid { grid-template-columns: 1fr 1fr; }
 
   /* Closing */
   .closing-section { padding: 90px 32px; }
   .contact-cards { flex-direction: column; align-items: stretch; gap: 10px; }
   .contact-card { min-width: unset; width: 100%; }
+  .closing-stats { flex-wrap: wrap; justify-content: center; }
+  .cs-item { flex: 1 1 40%; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .cs-div { display: none; }
 }
 
-/* ── RESPONSIVE — MOBILE (≤480px) ── */
 @media (max-width: 480px) {
   /* Hero */
   .hero-main { padding: 72px 20px 40px; }
@@ -1054,12 +1575,22 @@ body {
   .features-grid { grid-template-columns: 1fr; gap: 12px; }
   .feature-card { padding: 28px 24px; }
   .section-title { font-size: clamp(26px, 7vw, 38px); }
+  .feature-legend { gap: 10px; }
+  .um-table-grid { grid-template-columns: repeat(3, 1fr); }
 
   /* Flow */
   .flow-section { padding: 64px 20px; }
   .flow-grid { grid-template-columns: 1fr; border-radius: 14px; }
   .flow-step { padding: 28px 24px; border-right: none !important; border-bottom: 1px solid var(--border-dark); }
   .flow-step:last-child { border-bottom: none; }
+  
+  /* Flow Redesign fixes */
+  .flow-track-line { left: 24px; transform: none; }
+  .ft-step { grid-template-columns: 48px 1fr; gap: 16px; margin-bottom: 32px; }
+  .ft-step.right { grid-template-columns: 48px 1fr; }
+  .ft-step .ft-content, .ft-step.right .ft-content { grid-column: 2; text-align: left; margin: 0; }
+  .ft-node { grid-column: 1; padding: 0; }
+  .ft-step .ft-tags, .ft-step.right .ft-tags { justify-content: flex-start; }
 
   /* Users */
   .users-section { padding: 64px 20px; }
@@ -1074,25 +1605,38 @@ body {
   .chart-footer { gap: 16px; flex-wrap: wrap; }
   .report-item { padding: 14px 16px; gap: 12px; }
   .report-item h4 { font-size: 13px; }
+  
+  /* Reports Redesign fixes */
+  .report-cards { grid-template-columns: 1fr; }
+  .heatmap-labels-x, .heatmap-grid { grid-template-columns: 30px repeat(7, 1fr); }
+  .hm-cell { height: 14px; }
 
   /* Timeline */
   .timeline-section { padding: 64px 20px; }
   .timeline-header { margin-bottom: 40px; }
   .phases { grid-template-columns: 1fr; gap: 12px; }
   .phase { padding: 24px 20px; border-radius: 16px; }
+  
+  /* Timeline Redesign fixes */
+  .phases.six-col { grid-template-columns: 1fr; }
+  .tl-guarantee { grid-template-columns: 1fr; }
+  .tl-g-item { border-right: none; padding: 18px 16px; }
+
+  /* Tech */
+  .tech-section { padding: 64px 20px; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .tech-b4-note { flex-direction: column; padding: 18px; gap: 12px; }
 
   /* Closing */
   .closing-section { padding: 72px 20px; }
   .closing-title { font-size: clamp(36px, 10vw, 56px); letter-spacing: -1px; }
   .closing-body { font-size: 14px; margin-bottom: 44px; }
   .contact-card { padding: 18px 20px; }
-}
-
-@media print {
-  .scroll-cue, .hero-footer { display: none; }
-  .hero { min-height: auto; }
-  .hero-main { padding: 60px 40px; }
-  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  
+  /* Closing Stats Redesign fixes */
+  .closing-stats { flex-direction: column; width: 100%; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; }
+  .cs-item { width: 100%; padding: 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); flex: unset; }
+  .cs-item:last-child { border-bottom: none; }
 }
 
 @media print {
@@ -1105,7 +1649,6 @@ body {
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-noise"></div>
   <div class="hero-glow"></div>
@@ -1113,7 +1656,7 @@ body {
   <div class="hero-main">
     <div class="hero-eyebrow">
       <div class="hero-eyebrow-line"></div>
-      <span class="hero-eyebrow-text">Custom Built · Single Branch · Web Based</span>
+      <span class="hero-eyebrow-text">JavaFX · B4 Hybrid Sync · Professional POS</span>
       <div class="hero-eyebrow-line"></div>
     </div>
 
@@ -1123,20 +1666,20 @@ body {
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-num">5</div>
-        <div class="hero-stat-label">Core Modules</div>
+        <div class="hero-stat-num">38</div>
+        <div class="hero-stat-label">Total Features</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">2</div>
-        <div class="hero-stat-label">User Roles</div>
+        <div class="hero-stat-num">7</div>
+        <div class="hero-stat-label">Core Modules</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num">4</div>
         <div class="hero-stat-label">Weeks to Deliver</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">1</div>
-        <div class="hero-stat-label">System for Everything</div>
+        <div class="hero-stat-num">B4</div>
+        <div class="hero-stat-label">Architecture</div>
       </div>
     </div>
   </div>
@@ -1152,7 +1695,6 @@ body {
   </div>
 </div>
 
-<!-- INTRO -->
 <div class="intro-section">
   <div class="intro-inner">
     <div>
@@ -1185,308 +1727,930 @@ body {
   </div>
 </div>
 
-<!-- FEATURES -->
 <div class="features-section">
   <div class="features-inner">
     <div class="features-top">
       <div>
-        <p class="section-label">What's included</p>
-        <h2 class="section-title">Five powerful modules, one system</h2>
+        <p class="section-label">B4 Feature Set — Professional POS</p>
+        <h2 class="section-title">38 features across<br>seven modules</h2>
       </div>
-      <p class="section-body">Every part of your restaurant operation is covered — from the moment a customer walks in to the moment they pay and leave.</p>
+      <div>
+        <p class="section-body">Every part of your restaurant is covered — from login to cloud sync. Features are colour-coded by build phase so you know exactly what ships when.</p>
+        <div class="feature-legend">
+          <span class="legend-dot core"></span><span>Core — launch day</span>
+          <span class="legend-dot pro"></span><span>Professional — phase 2</span>
+          <span class="legend-dot wow"></span><span>Wow factor — phase 3</span>
+        </div>
+      </div>
     </div>
-    <div class="features-grid">
 
-      <div class="feature-card">
-        <div class="feature-num">01</div>
-        <div class="feature-icon-wrap">🛒</div>
-        <h3>Order Management</h3>
-        <p>Staff select a table, browse the full menu, add items with quantities, and confirm the order. Multiple tables can be open at the same time.</p>
-        <span class="feature-badge">Core Feature</span>
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">🔐</div>
+        <div>
+          <h3 class="module-title">Authentication &amp; User Management</h3>
+          <span class="module-count">4 features</span>
+        </div>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-num">02</div>
-        <div class="feature-icon-wrap">🧾</div>
-        <h3>Billing & Receipts</h3>
-        <p>Bills are automatically generated from the order — no manual adding. Shows all items, quantities, subtotal, tax, and total. Receipts can be printed or saved as PDF.</p>
-        <span class="feature-badge">Core Feature</span>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Role-based login</strong><p>Admin and Cashier each log in with their own credentials and see only their screens</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Session timeout</strong><p>Auto-lock screen after inactivity — cashier must re-enter PIN to continue</p></div></div>
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Staff account management</strong><p>Admin adds, edits, deactivates staff accounts without touching the database</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Activity log</strong><p>Every login, logout, void, and discount is recorded with timestamp and staff name</p></div></div>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-num">03</div>
-        <div class="feature-icon-wrap">💳</div>
-        <h3>Payment Tracking</h3>
-        <p>Cashier records whether payment is by cash or card. For cash, the system automatically calculates change. Every payment is logged with a timestamp.</p>
-        <span class="feature-badge">Core Feature</span>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-num">04</div>
-        <div class="feature-icon-wrap">📦</div>
-        <h3>Inventory Control</h3>
-        <p>Track all your stock items — ingredients, supplies, and anything else. Get automatic alerts when items fall below a minimum level.</p>
-        <span class="feature-badge">Management</span>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-num">05</div>
-        <div class="feature-icon-wrap">📊</div>
-        <h3>Sales Reports</h3>
-        <p>View revenue made today, this week, or this month. See your best-selling dishes, busiest hours, and total order counts. Reports can be exported.</p>
-        <span class="feature-badge">Analytics</span>
-      </div>
-
     </div>
+
+    <div class="ui-mockup-wrap">
+      <div class="ui-mockup-label">Sample UI — Login Screen</div>
+      <div class="ui-mockup login-mockup">
+        <div class="um-topbar"><span class="um-dot r"></span><span class="um-dot a"></span><span class="um-dot g"></span><span class="um-title">Restaurant POS</span></div>
+        <div class="um-login-body">
+          <div class="um-logo">🍽️</div>
+          <div class="um-login-title">Welcome back</div>
+          <div class="um-login-sub">Select your role to continue</div>
+          <div class="um-role-btns">
+            <div class="um-role active">
+              <span class="um-role-icon">👤</span>
+              <span>Admin</span>
+            </div>
+            <div class="um-role">
+              <span class="um-role-icon">💁</span>
+              <span>Cashier</span>
+            </div>
+          </div>
+          <div class="um-pin-label">Enter PIN</div>
+          <div class="um-pin-dots">
+            <span class="um-pin-dot filled"></span>
+            <span class="um-pin-dot filled"></span>
+            <span class="um-pin-dot filled"></span>
+            <span class="um-pin-dot"></span>
+          </div>
+          <div class="um-keypad">
+            <div class="um-key">1</div><div class="um-key">2</div><div class="um-key">3</div>
+            <div class="um-key">4</div><div class="um-key">5</div><div class="um-key">6</div>
+            <div class="um-key">7</div><div class="um-key">8</div><div class="um-key">9</div>
+            <div class="um-key ghost"></div><div class="um-key">0</div><div class="um-key ghost">⌫</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">🍽️</div>
+        <div>
+          <h3 class="module-title">Menu Management</h3>
+          <span class="module-count">5 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Full menu CRUD</strong><p>Add, edit, delete menu items with name, price, category, and description</p></div></div>
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Categories</strong><p>Group items into Rice, Kottu, Drinks, Desserts etc. for faster ordering</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Item photos</strong><p>Upload a photo per menu item — displays on the order screen making selection faster</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Sold out toggle</strong><p>Mark any item unavailable for the day — it greys out on the order screen instantly</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Price history</strong><p>Every price change is logged with date and who made it — protects against disputes</p></div></div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">🛒</div>
+        <div>
+          <h3 class="module-title">Order Management</h3>
+          <span class="module-count">6 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Table-based ordering</strong><p>Select a table, pick items, set quantities — multiple tables open simultaneously</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Visual table map</strong><p>Floor plan view showing each table as free (green), occupied (red), or billing (amber)</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Order modification &amp; void</strong><p>Edit or remove items from an active order — voids are logged with reason and staff name</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Item notes</strong><p>Cashier adds notes per item — "no chilli", "extra sauce" — prints on receipt</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Table transfer</strong><p>Move an active order from one table to another — common when customers switch seats</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Hold &amp; recall orders</strong><p>Park an incomplete order and come back to it later without losing items</p></div></div>
+      </div>
+    </div>
+
+    <div class="ui-mockup-wrap">
+      <div class="ui-mockup-label">Sample UI — Order Screen (Table 4)</div>
+      <div class="ui-mockup order-mockup">
+        <div class="um-topbar"><span class="um-dot r"></span><span class="um-dot a"></span><span class="um-dot g"></span><span class="um-title">Order — Table 4 &nbsp;·&nbsp; Cashier: Priya</span></div>
+        <div class="um-order-body">
+          <div class="um-menu-panel">
+            <div class="um-cat-tabs">
+              <span class="um-cat active">Rice</span>
+              <span class="um-cat">Kottu</span>
+              <span class="um-cat">Drinks</span>
+              <span class="um-cat">Desserts</span>
+            </div>
+            <div class="um-menu-grid">
+              <div class="um-menu-item">
+                <div class="um-item-img">🍛</div>
+                <div class="um-item-name">Rice &amp; Curry</div>
+                <div class="um-item-price">Rs. 650</div>
+              </div>
+              <div class="um-menu-item selected">
+                <div class="um-item-img">🥘</div>
+                <div class="um-item-name">Fried Rice</div>
+                <div class="um-item-price">Rs. 750</div>
+                <div class="um-item-badge">+2</div>
+              </div>
+              <div class="um-menu-item">
+                <div class="um-item-img">🍲</div>
+                <div class="um-item-name">Noodles</div>
+                <div class="um-item-price">Rs. 700</div>
+              </div>
+              <div class="um-menu-item soldout">
+                <div class="um-item-img">🍱</div>
+                <div class="um-item-name">Devilled</div>
+                <div class="um-item-price">Rs. 850</div>
+                <div class="um-soldout-tag">Sold Out</div>
+              </div>
+            </div>
+          </div>
+          <div class="um-order-panel">
+            <div class="um-order-title">Current Order</div>
+            <div class="um-order-list">
+              <div class="um-order-row"><span>Fried Rice</span><span class="um-qty">×2</span><span class="um-amt">1,500</span></div>
+              <div class="um-order-row"><span>Rice &amp; Curry</span><span class="um-qty">×1</span><span class="um-amt">650</span></div>
+              <div class="um-order-row note-row"><span class="um-note">↳ no chilli</span></div>
+            </div>
+            <div class="um-order-divider"></div>
+            <div class="um-order-row total-row"><span>Subtotal</span><span>Rs. 2,150</span></div>
+            <div class="um-order-row total-row"><span>Tax (10%)</span><span>Rs. 215</span></div>
+            <div class="um-order-row grand-row"><span>Total</span><span>Rs. 2,365</span></div>
+            <div class="um-order-actions">
+              <div class="um-btn ghost">Hold</div>
+              <div class="um-btn primary">Bill →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-mockup-wrap">
+      <div class="ui-mockup-label">Sample UI — Visual Table Map</div>
+      <div class="ui-mockup table-mockup">
+        <div class="um-topbar"><span class="um-dot r"></span><span class="um-dot a"></span><span class="um-dot g"></span><span class="um-title">Floor Plan — Restaurant</span></div>
+        <div class="um-table-legend">
+          <span class="um-tleg free">● Free</span>
+          <span class="um-tleg occ">● Occupied</span>
+          <span class="um-tleg bill">● Billing</span>
+        </div>
+        <div class="um-table-grid">
+          <div class="um-table free"><span class="um-t-num">T1</span><span class="um-t-sub">Free</span></div>
+          <div class="um-table occ"><span class="um-t-num">T2</span><span class="um-t-sub">3 items</span></div>
+          <div class="um-table occ"><span class="um-t-num">T3</span><span class="um-t-sub">5 items</span></div>
+          <div class="um-table bill"><span class="um-t-num">T4</span><span class="um-t-sub">Billing</span></div>
+          <div class="um-table free"><span class="um-t-num">T5</span><span class="um-t-sub">Free</span></div>
+          <div class="um-table occ"><span class="um-t-num">T6</span><span class="um-t-sub">2 items</span></div>
+          <div class="um-table free"><span class="um-t-num">T7</span><span class="um-t-sub">Free</span></div>
+          <div class="um-table occ"><span class="um-t-num">T8</span><span class="um-t-sub">7 items</span></div>
+          <div class="um-table free"><span class="um-t-num">T9</span><span class="um-t-sub">Free</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">🧾</div>
+        <div>
+          <h3 class="module-title">Billing &amp; Payments</h3>
+          <span class="module-count">6 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Auto bill generation</strong><p>One click generates full itemised bill with subtotal, tax, and total automatically</p></div></div>
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Thermal receipt printing</strong><p>Prints directly to 80mm thermal printer via ESCPOS — no drivers needed</p></div></div>
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Cash &amp; card payment</strong><p>Record payment method, calculate change for cash, mark bill as paid</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Discounts &amp; promos</strong><p>Apply % or fixed amount discounts with a reason — logged against the cashier who applied it</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Split bill</strong><p>Divide one table's bill between multiple customers — each pays their portion separately</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Bill reprint</strong><p>Reprint any previous receipt from history — useful when customer asks for a copy</p></div></div>
+      </div>
+    </div>
+
+    <div class="ui-mockup-wrap">
+      <div class="ui-mockup-label">Sample UI — Bill &amp; Payment Screen</div>
+      <div class="ui-mockup bill-mockup">
+        <div class="um-topbar"><span class="um-dot r"></span><span class="um-dot a"></span><span class="um-dot g"></span><span class="um-title">Bill — Table 4</span></div>
+        <div class="um-bill-body">
+          <div class="um-receipt">
+            <div class="um-receipt-head">
+              <div class="um-rname">🍽️ Machan Restaurant</div>
+              <div class="um-rsub">Table 4 &nbsp;·&nbsp; 12:47 PM &nbsp;·&nbsp; Cashier: Shashika</div>
+            </div>
+            <div class="um-receipt-items">
+              <div class="um-ri"><span>Fried Rice ×2</span><span>Rs. 1,500</span></div>
+              <div class="um-ri"><span>Rice &amp; Curry ×1</span><span>Rs. 650</span></div>
+            </div>
+            <div class="um-receipt-divider">- - - - - - - - - - - - - - - - -</div>
+            <div class="um-ri sub"><span>Subtotal</span><span>Rs. 2,150</span></div>
+            <div class="um-ri sub"><span>Tax (10%)</span><span>Rs. 215</span></div>
+            <div class="um-ri discount"><span>Discount (5%)</span><span>− Rs. 108</span></div>
+            <div class="um-ri total"><span>TOTAL</span><span>Rs. 2,257</span></div>
+          </div>
+          <div class="um-payment-panel">
+            <div class="um-pay-title">Payment Method</div>
+            <div class="um-pay-methods">
+              <div class="um-pay-method active">💵 Cash</div>
+              <div class="um-pay-method">💳 Card</div>
+            </div>
+            <div class="um-pay-title" style="margin-top:12px">Cash Received</div>
+            <div class="um-cash-input">Rs. 3,000</div>
+            <div class="um-change-row"><span>Change</span><span class="um-change-val">Rs. 743</span></div>
+            <div class="um-btn primary wide">✓ Confirm Payment &amp; Print</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">📦</div>
+        <div>
+          <h3 class="module-title">Inventory &amp; Stock</h3>
+          <span class="module-count">4 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Stock item management</strong><p>Add ingredients and supplies with current stock, unit, and minimum level</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Auto stock deduction</strong><p>When an order is placed, linked ingredients are automatically deducted from stock</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Stock adjustment log</strong><p>Every manual stock change is logged with reason, quantity, and staff name</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Supplier directory</strong><p>Store supplier names, contacts, and which items they supply — quick reference for reordering</p></div></div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">📊</div>
+        <div>
+          <h3 class="module-title">Reports &amp; Analytics</h3>
+          <span class="module-count">7 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Daily / weekly / monthly revenue</strong><p>Total sales, order count, average bill value — filterable by any date range</p></div></div>
+        <div class="mf-item"><span class="mf-dot core"></span><div><strong>Best-selling items</strong><p>Ranked list of dishes by quantity sold and revenue generated for any period</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Peak hours heatmap</strong><p>Visual grid showing which hours and days are busiest — helps with staff scheduling</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Cashier performance</strong><p>Orders handled, discounts given, and voids per staff member — accountability tool</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>End-of-day closing report</strong><p>One-click daily summary: cash collected, card payments, discounts, voids — printable</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Expense tracking</strong><p>Log daily expenses (gas, ingredients, wages) so reports show actual profit not just revenue</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Export to PDF &amp; CSV</strong><p>Any report can be exported as a printable PDF or a CSV for Excel — useful for accountants</p></div></div>
+      </div>
+    </div>
+
+    <div class="ui-mockup-wrap">
+      <div class="ui-mockup-label">Sample UI — Reports Dashboard</div>
+      <div class="ui-mockup reports-mockup">
+        <div class="um-topbar"><span class="um-dot r"></span><span class="um-dot a"></span><span class="um-dot g"></span><span class="um-title">Reports &amp; Analytics — Admin</span></div>
+        <div class="um-reports-body">
+          <div class="um-report-kpis">
+            <div class="um-kpi gold"><div class="um-kpi-val">Rs. 42,850</div><div class="um-kpi-lbl">Today's Revenue</div></div>
+            <div class="um-kpi"><div class="um-kpi-val">67</div><div class="um-kpi-lbl">Orders Today</div></div>
+            <div class="um-kpi"><div class="um-kpi-val">Rs. 640</div><div class="um-kpi-lbl">Avg. Bill</div></div>
+            <div class="um-kpi green"><div class="um-kpi-val">↑ 12%</div><div class="um-kpi-lbl">vs Yesterday</div></div>
+          </div>
+          <div class="um-report-charts">
+            <div class="um-chart-block">
+              <div class="um-chart-title">Revenue — Last 7 days</div>
+              <div class="um-chart-bars-sm">
+                <div class="um-bar-sm" style="height:55%"><span>Mon</span></div>
+                <div class="um-bar-sm" style="height:70%"><span>Tue</span></div>
+                <div class="um-bar-sm" style="height:45%"><span>Wed</span></div>
+                <div class="um-bar-sm" style="height:80%"><span>Thu</span></div>
+                <div class="um-bar-sm" style="height:60%"><span>Fri</span></div>
+                <div class="um-bar-sm hi" style="height:95%"><span>Sat</span></div>
+                <div class="um-bar-sm" style="height:75%"><span>Sun</span></div>
+              </div>
+            </div>
+            <div class="um-chart-block">
+              <div class="um-chart-title">Top Selling Items</div>
+              <div class="um-top-items">
+                <div class="um-ti"><span class="um-ti-rank">1</span><span class="um-ti-name">Rice &amp; Curry</span><div class="um-ti-bar" style="width:90%"></div></div>
+                <div class="um-ti"><span class="um-ti-rank">2</span><span class="um-ti-name">Fried Rice</span><div class="um-ti-bar" style="width:72%"></div></div>
+                <div class="um-ti"><span class="um-ti-rank">3</span><span class="um-ti-name">Kottu</span><div class="um-ti-bar" style="width:58%"></div></div>
+                <div class="um-ti"><span class="um-ti-rank">4</span><span class="um-ti-name">Noodles</span><div class="um-ti-bar" style="width:40%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="um-report-actions">
+            <div class="um-btn ghost sm">Export PDF</div>
+            <div class="um-btn ghost sm">Export CSV</div>
+            <div class="um-btn primary sm">End-of-Day Report</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div class="module-header">
+        <div class="module-icon-wrap">☁️</div>
+        <div>
+          <h3 class="module-title">System &amp; Cloud Sync</h3>
+          <span class="module-count">5 features</span>
+        </div>
+      </div>
+      <div class="module-features">
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Auto cloud sync</strong><p>Background thread pushes every transaction to cloud VPS — owner sees live data remotely</p></div></div>
+        <div class="mf-item"><span class="mf-dot wow"></span><div><strong>Automatic backups</strong><p>Daily local backup + cloud backup — if PC dies, restore everything in 30 minutes</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Restaurant settings</strong><p>Restaurant name, address, tax rate, receipt footer message — all configurable by admin</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Update mechanism</strong><p>App checks for new version on startup and prompts admin to update — no manual reinstall</p></div></div>
+        <div class="mf-item"><span class="mf-dot pro"></span><div><strong>Sync status indicator</strong><p>Small status bar shows last sync time and cloud connection — green / amber / red indicator</p></div></div>
+      </div>
+    </div>
+
+    <div class="feature-summary">
+      <div class="fs-block core-block">
+        <div class="fs-num">14</div>
+        <div class="fs-label">Core Features</div>
+        <div class="fs-sub">Must have for launch</div>
+      </div>
+      <div class="fs-block pro-block">
+        <div class="fs-num">15</div>
+        <div class="fs-label">Professional Features</div>
+        <div class="fs-sub">Separates you from amateurs</div>
+      </div>
+      <div class="fs-block wow-block">
+        <div class="fs-num">9</div>
+        <div class="fs-label">Wow Factor Features</div>
+        <div class="fs-sub">Client tells their friends</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- FLOW -->
 <div class="flow-section">
   <div class="flow-inner">
-    <p class="section-label">How it works</p>
-    <h2 class="section-title" style="color:var(--white)">From customer arrival<br>to payment done</h2>
-    <p class="section-body">The entire restaurant process is handled in 4 simple steps — all connected, all automatic.</p>
+    <div class="flow-header">
+      <div>
+        <p class="section-label">How it works</p>
+        <h2 class="section-title" style="color:var(--white)">One smooth loop,<br>zero paper</h2>
+      </div>
+      <p class="section-body" style="max-width:380px">Every action a staff member takes feeds directly into the next step — nothing is written down, nothing is lost, nothing is calculated by hand.</p>
+    </div>
 
-    <div class="flow-grid">
-      <div class="flow-step">
-        <span class="flow-step-num">01</span>
-        <span class="flow-icon">🪑</span>
-        <h4>Customer Arrives</h4>
-        <p>Staff opens the system and selects the table number to start a new order</p>
-        <div class="flow-step-arrow">
-          <svg width="6" height="8" viewBox="0 0 6 8" fill="none"><path d="M1 1l4 3-4 3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="flow-track">
+      <div class="flow-track-line"></div>
+
+      <div class="ft-step">
+        <div class="ft-node">
+          <span class="ft-icon">🪑</span>
+          <div class="ft-num">01</div>
+        </div>
+        <div class="ft-content">
+          <h4>Customer Arrives</h4>
+          <p>Cashier opens the visual table map, taps the correct table, and starts a new order. Table colour changes from green to red — every other terminal sees it instantly.</p>
+          <div class="ft-tags"><span class="ft-tag">Table Map</span><span class="ft-tag">Multi-terminal</span></div>
         </div>
       </div>
-      <div class="flow-step">
-        <span class="flow-step-num">02</span>
-        <span class="flow-icon">📋</span>
-        <h4>Order is Taken</h4>
-        <p>Items are picked from the digital menu with quantities and any special notes</p>
-        <div class="flow-step-arrow">
-          <svg width="6" height="8" viewBox="0 0 6 8" fill="none"><path d="M1 1l4 3-4 3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+      <div class="ft-step right">
+        <div class="ft-node">
+          <span class="ft-icon">📋</span>
+          <div class="ft-num">02</div>
+        </div>
+        <div class="ft-content">
+          <h4>Order is Built</h4>
+          <p>Items are selected by category with a single tap. Quantities, special notes ("no chilli", "extra sauce"), and modifiers are added per item. The running total updates live.</p>
+          <div class="ft-tags"><span class="ft-tag">Item Notes</span><span class="ft-tag">Category Tabs</span><span class="ft-tag">Item Photos</span></div>
         </div>
       </div>
-      <div class="flow-step">
-        <span class="flow-step-num">03</span>
-        <span class="flow-icon">🧾</span>
-        <h4>Bill Generated</h4>
-        <p>One click generates the full bill automatically with all items and totals</p>
-        <div class="flow-step-arrow">
-          <svg width="6" height="8" viewBox="0 0 6 8" fill="none"><path d="M1 1l4 3-4 3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+      <div class="ft-step">
+        <div class="ft-node">
+          <span class="ft-icon">✏️</span>
+          <div class="ft-num">03</div>
+        </div>
+        <div class="ft-content">
+          <h4>Order Modified if Needed</h4>
+          <p>Customer changes their mind? Items can be added, removed, or the entire order transferred to a different table. Every void is logged with a reason and the cashier's name.</p>
+          <div class="ft-tags"><span class="ft-tag">Void Log</span><span class="ft-tag">Table Transfer</span><span class="ft-tag">Hold &amp; Recall</span></div>
         </div>
       </div>
-      <div class="flow-step">
-        <span class="flow-step-num">04</span>
-        <span class="flow-icon">✅</span>
-        <h4>Payment Done</h4>
-        <p>Payment recorded, receipt printed, table cleared and ready for the next customer</p>
+
+      <div class="ft-step right">
+        <div class="ft-node">
+          <span class="ft-icon">🧾</span>
+          <div class="ft-num">04</div>
+        </div>
+        <div class="ft-content">
+          <h4>Bill Generated</h4>
+          <p>One tap generates the full itemised bill — subtotal, tax, any discount — with no manual maths. Discounts require a reason code so every reduction is traceable.</p>
+          <div class="ft-tags"><span class="ft-tag">Auto Tax</span><span class="ft-tag">Discounts &amp; Promos</span><span class="ft-tag">Split Bill</span></div>
+        </div>
       </div>
+
+      <div class="ft-step">
+        <div class="ft-node">
+          <span class="ft-icon">💳</span>
+          <div class="ft-num">05</div>
+        </div>
+        <div class="ft-content">
+          <h4>Payment Recorded</h4>
+          <p>Cashier selects Cash or Card. Cash payments auto-calculate change. The transaction is saved with a timestamp, payment method, and staff name. Table turns green again.</p>
+          <div class="ft-tags"><span class="ft-tag">Cash Change Calc</span><span class="ft-tag">Card Payment</span><span class="ft-tag">Timestamp Log</span></div>
+        </div>
+      </div>
+
+      <div class="ft-step right">
+        <div class="ft-node">
+          <span class="ft-icon">🖨️</span>
+          <div class="ft-num">06</div>
+        </div>
+        <div class="ft-content">
+          <h4>Receipt Printed &amp; Synced</h4>
+          <p>The 80mm thermal printer fires instantly — no drivers, no delays. The transaction is simultaneously pushed to the cloud VPS so the owner can see it from any device, anywhere.</p>
+          <div class="ft-tags"><span class="ft-tag">Thermal Print</span><span class="ft-tag">Cloud Sync</span><span class="ft-tag">Bill Reprint</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- USERS -->
+
 <div class="users-section">
   <div class="users-inner">
     <div class="users-header">
       <p class="section-label">User roles</p>
-      <h2 class="section-title">The right access for every person</h2>
-      <p class="section-body" style="margin-top:12px">Two user types — each with their own login and access level so your staff only sees what they need.</p>
+      <h2 class="section-title">Built for two people.<br>Secured by design.</h2>
+      <p class="section-body" style="margin-top:16px">Every action in the system is tied to a user account. Admin and Cashier have completely separate screens — there is no way for a cashier to accidentally (or deliberately) access owner data.</p>
     </div>
 
     <div class="users-grid">
 
       <div class="user-card featured">
-        <div class="user-avatar-ring">👤</div>
-        <div class="user-tag">Owner / Manager</div>
-        <h3>Admin</h3>
+        <div class="user-card-top">
+          <div class="user-avatar-ring">👤</div>
+          <div>
+            <div class="user-tag">Owner / Manager</div>
+            <h3>Admin</h3>
+          </div>
+        </div>
         <div class="user-divider"></div>
         <ul class="user-perms">
-          <li><span class="perm-dot"></span>Full access to all modules</li>
-          <li><span class="perm-dot"></span>Manage menu items and prices</li>
-          <li><span class="perm-dot"></span>View and export all sales reports</li>
-          <li><span class="perm-dot"></span>Manage inventory and stock levels</li>
-          <li><span class="perm-dot"></span>Add or remove staff accounts</li>
-          <li><span class="perm-dot"></span>Apply discounts to any order</li>
-          <li><span class="perm-dot"></span>Change system settings</li>
+          <li><span class="perm-dot"></span>Full access to all 7 modules</li>
+          <li><span class="perm-dot"></span>Add, edit &amp; deactivate staff accounts</li>
+          <li><span class="perm-dot"></span>Manage the full menu, prices &amp; photos</li>
+          <li><span class="perm-dot"></span>View, filter &amp; export all sales reports</li>
+          <li><span class="perm-dot"></span>Manage stock levels &amp; supplier directory</li>
+          <li><span class="perm-dot"></span>Apply &amp; approve discounts on any order</li>
+          <li><span class="perm-dot"></span>Configure restaurant settings &amp; tax rate</li>
+          <li><span class="perm-dot"></span>Review cashier performance &amp; activity log</li>
         </ul>
+        <div class="user-note">Logs in from any device — office, home, or phone</div>
       </div>
 
       <div class="user-card">
-        <div class="user-avatar-ring">💁</div>
-        <div class="user-tag">Counter Staff</div>
-        <h3>Cashier</h3>
+        <div class="user-card-top">
+          <div class="user-avatar-ring">💁</div>
+          <div>
+            <div class="user-tag">Counter Staff</div>
+            <h3>Cashier</h3>
+          </div>
+        </div>
         <div class="user-divider"></div>
         <ul class="user-perms">
-          <li><span class="perm-dot"></span>Take and manage table orders</li>
-          <li><span class="perm-dot"></span>Generate bills for any table</li>
-          <li><span class="perm-dot"></span>Process cash and card payments</li>
-          <li><span class="perm-dot"></span>Print or save receipts</li>
-          <li><span class="perm-dot"></span>View open orders across tables</li>
-          <li><span class="perm-dot"></span>Cannot access reports or settings</li>
+          <li><span class="perm-dot"></span>View &amp; interact with visual table map</li>
+          <li><span class="perm-dot"></span>Take orders, add item notes &amp; quantities</li>
+          <li><span class="perm-dot"></span>Modify, void, hold &amp; transfer orders</li>
+          <li><span class="perm-dot"></span>Generate bills and apply approved discounts</li>
+          <li><span class="perm-dot"></span>Process cash &amp; card payments</li>
+          <li><span class="perm-dot"></span>Print &amp; reprint thermal receipts</li>
+          <li><span class="perm-dot perm-no"></span>Cannot access reports or analytics</li>
+          <li><span class="perm-dot perm-no"></span>Cannot change settings or menu prices</li>
         </ul>
+        <div class="user-note">Screen auto-locks after inactivity — PIN to resume</div>
       </div>
 
     </div>
+
+    <div class="access-matrix">
+      <div class="am-title">Access Matrix — at a glance</div>
+      <div class="am-grid">
+        <div class="am-header"></div>
+        <div class="am-header">Admin</div>
+        <div class="am-header">Cashier</div>
+
+        <div class="am-row-label">Order &amp; Table Management</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell yes">✓ Full</div>
+
+        <div class="am-row-label">Billing &amp; Payments</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell yes">✓ Full</div>
+
+        <div class="am-row-label">Menu &amp; Item Management</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell no">✗ View only</div>
+
+        <div class="am-row-label">Reports &amp; Analytics</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell no">✗ No access</div>
+
+        <div class="am-row-label">Inventory &amp; Stock</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell no">✗ No access</div>
+
+        <div class="am-row-label">Staff Accounts</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell no">✗ No access</div>
+
+        <div class="am-row-label">System Settings</div>
+        <div class="am-cell yes">✓ Full</div>
+        <div class="am-cell no">✗ No access</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- REPORTS -->
+
 <div class="reports-section">
   <div class="reports-inner">
-    <div>
-      <p class="section-label">Reports & insights</p>
-      <h2 class="section-title">Know your restaurant inside out</h2>
-      <p class="section-body">As the owner, you get a full picture of your business — revenue, popular dishes, stock status, and more — any time you need it.</p>
-      <div class="report-list">
-        <div class="report-item">
+    <div class="reports-left">
+      <p class="section-label">Reports &amp; insights</p>
+      <h2 class="section-title">Your business, visible<br>from anywhere</h2>
+      <p class="section-body">Every transaction generates data. The reporting module turns that data into clear answers — how much you made, who served the most, what's running low, and where your peak hours are.</p>
+
+      <div class="report-cards">
+        <div class="report-card">
           <div class="report-icon">💰</div>
           <div>
-            <h4>Daily, Weekly & Monthly Revenue</h4>
-            <p>See your exact earnings for any period at a glance</p>
+            <h4>Revenue Reports</h4>
+            <p>Daily, weekly, monthly — filterable by any date range. Total sales, order count, average bill, payment method breakdown.</p>
           </div>
         </div>
-        <div class="report-item">
+        <div class="report-card">
           <div class="report-icon">🏆</div>
           <div>
             <h4>Best-Selling Items</h4>
-            <p>Know which dishes are most popular so you can plan your menu</p>
+            <p>Ranked by quantity sold and revenue generated. Know what to promote, what to drop, and what to always keep in stock.</p>
           </div>
         </div>
-        <div class="report-item">
-          <div class="report-icon">📦</div>
+        <div class="report-card">
+          <div class="report-icon">🔥</div>
           <div>
-            <h4>Low Stock Alerts</h4>
-            <p>Automatic warnings when any ingredient or supply runs low</p>
+            <h4>Peak Hours Heatmap</h4>
+            <p>A visual grid of your busiest hours and days. Use it to schedule the right number of staff on the right shifts.</p>
           </div>
         </div>
-        <div class="report-item">
-          <div class="report-icon">🧾</div>
+        <div class="report-card">
+          <div class="report-icon">👥</div>
           <div>
-            <h4>Full Order History</h4>
-            <p>Every order and payment ever made, searchable and exportable</p>
+            <h4>Cashier Performance</h4>
+            <p>Orders handled, discounts applied, and voids per staff member. A built-in accountability tool for your team.</p>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">📋</div>
+          <div>
+            <h4>End-of-Day Report</h4>
+            <p>One-click daily closing summary — cash collected, card totals, discounts given, voids made. Printable for your records.</p>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">💸</div>
+          <div>
+            <h4>Expense Tracking</h4>
+            <p>Log gas, wages, ingredients, and other daily costs so reports show actual profit — not just gross revenue.</p>
+          </div>
+        </div>
+        <div class="report-card full-width-card">
+          <div class="report-icon">📤</div>
+          <div>
+            <h4>Export to PDF &amp; CSV</h4>
+            <p>Any report can be printed as a PDF or exported as a spreadsheet for your accountant — no manual copying needed.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mock-chart">
-      <div class="chart-top">
-        <div>
-          <div class="chart-label">Monthly Revenue</div>
-          <div class="chart-value">Rs. 284K</div>
-          <div class="chart-change">↑ 18% from last month</div>
+    <div class="reports-right">
+      <div class="mock-chart">
+        <div class="chart-top">
+          <div>
+            <div class="chart-label">Monthly Revenue</div>
+            <div class="chart-value">Rs. 284K</div>
+            <div class="chart-change">↑ 18% from last month</div>
+          </div>
+          <div class="chart-period">Last 7 months</div>
         </div>
-        <div class="chart-period">Last 7 months</div>
+        <div class="chart-bars">
+          <div class="bar-col"><div class="bar" style="height:55%"></div><span class="bar-lbl">Aug</span></div>
+          <div class="bar-col"><div class="bar" style="height:70%"></div><span class="bar-lbl">Sep</span></div>
+          <div class="bar-col"><div class="bar" style="height:60%"></div><span class="bar-lbl">Oct</span></div>
+          <div class="bar-col"><div class="bar" style="height:80%"></div><span class="bar-lbl">Nov</span></div>
+          <div class="bar-col"><div class="bar" style="height:65%"></div><span class="bar-lbl">Dec</span></div>
+          <div class="bar-col"><div class="bar" style="height:75%"></div><span class="bar-lbl">Jan</span></div>
+          <div class="bar-col"><div class="bar hi" style="height:95%"></div><span class="bar-lbl" style="color:var(--gold-light)">Feb</span></div>
+        </div>
+        <div class="chart-footer">
+          <div class="chart-footer-stat">
+            <div class="chart-footer-lbl">Total Orders</div>
+            <div class="chart-footer-val">1,842</div>
+          </div>
+          <div class="chart-footer-stat">
+            <div class="chart-footer-lbl">Avg. Bill</div>
+            <div class="chart-footer-val">Rs. 1,540</div>
+          </div>
+          <div class="chart-footer-stat">
+            <div class="chart-footer-lbl">Top Dish</div>
+            <div class="chart-footer-val gold">Rice &amp; Curry</div>
+          </div>
+        </div>
       </div>
-      <div class="chart-bars">
-        <div class="bar-col"><div class="bar" style="height:55%"></div><span class="bar-lbl">Aug</span></div>
-        <div class="bar-col"><div class="bar" style="height:70%"></div><span class="bar-lbl">Sep</span></div>
-        <div class="bar-col"><div class="bar" style="height:60%"></div><span class="bar-lbl">Oct</span></div>
-        <div class="bar-col"><div class="bar" style="height:80%"></div><span class="bar-lbl">Nov</span></div>
-        <div class="bar-col"><div class="bar" style="height:65%"></div><span class="bar-lbl">Dec</span></div>
-        <div class="bar-col"><div class="bar" style="height:75%"></div><span class="bar-lbl">Jan</span></div>
-        <div class="bar-col"><div class="bar hi" style="height:95%"></div><span class="bar-lbl" style="color:var(--gold-light)">Feb</span></div>
+
+      <div class="heatmap-block">
+        <div class="heatmap-title">Peak Hours Heatmap — sample</div>
+        <div class="heatmap-labels-x">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+        <div class="heatmap-grid">
+          <span class="hm-y">11am</span>
+          <div class="hm-cell l1"></div><div class="hm-cell l2"></div><div class="hm-cell l1"></div><div class="hm-cell l2"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l3"></div>
+          <span class="hm-y">12pm</span>
+          <div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l4"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div>
+          <span class="hm-y">1pm</span>
+          <div class="hm-cell l4"></div><div class="hm-cell l5"></div><div class="hm-cell l4"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div><div class="hm-cell l4"></div>
+          <span class="hm-y">6pm</span>
+          <div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div>
+          <span class="hm-y">7pm</span>
+          <div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div><div class="hm-cell l5"></div>
+          <span class="hm-y">8pm</span>
+          <div class="hm-cell l2"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div>
+        </div>
+        <div class="heatmap-legend"><span>Low</span><div class="hm-l l1"></div><div class="hm-l l2"></div><div class="hm-l l3"></div><div class="hm-l l4"></div><div class="hm-l l5"></div><span>Busy</span></div>
       </div>
-      <div class="chart-footer">
-        <div class="chart-footer-stat">
-          <div class="chart-footer-lbl">Total Orders</div>
-          <div class="chart-footer-val">1,842</div>
-        </div>
-        <div class="chart-footer-stat">
-          <div class="chart-footer-lbl">Avg. Bill</div>
-          <div class="chart-footer-val">Rs. 1,540</div>
-        </div>
-        <div class="chart-footer-stat">
-          <div class="chart-footer-lbl">Top Dish</div>
-          <div class="chart-footer-val gold">Rice & Curry</div>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>
 
-<!-- TIMELINE -->
+
 <div class="timeline-section">
   <div class="timeline-inner">
     <div class="timeline-header">
       <p class="section-label">Delivery plan</p>
-      <h2 class="section-title">Built in 4 phases over 4 weeks</h2>
-      <p class="section-body">You will see progress at every stage — not just a finished product at the end.</p>
+      <h2 class="section-title">6 weeks. Fully built.<br>Properly delivered.</h2>
+      <p class="section-body">Each week has a clear goal with specific deliverables. You receive a working demo at the end of every phase — not a finished product you see for the first time on day 42.</p>
     </div>
-    <div class="phases">
 
-      <div class="phase done">
-        <div class="phase-num">1</div>
-        <div class="phase-weeks">Week 1 </div>
-        <h4>Foundation</h4>
-        <ul class="phase-tasks">
-          <li><span class="task-dot"></span>User login & roles</li>
-          <li><span class="task-dot"></span>Menu management</li>
-          <li><span class="task-dot"></span>System UI design</li>
-          <li><span class="task-dot"></span>Database setup</li>
-        </ul>
+    <div class="tl-progress-wrap">
+      <div class="tl-progress-bar">
+        <div class="tl-prog-fill" style="width:0%"></div>
       </div>
+      <div class="tl-progress-labels">
+        <span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span><span>Week 5</span><span>Week 6</span>
+      </div>
+    </div>
 
-      <div class="phase now">
-        <div class="phase-num">2</div>
-        <div class="phase-weeks">Week 2 </div>
-        <h4>Core Features</h4>
+    <div class="phases six-col">
+
+      <div class="phase">
+        <div class="phase-top-row">
+          <div class="phase-num">1</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
+        <div class="phase-weeks">Week 1</div>
+        <h4>Foundation &amp; Architecture</h4>
+        <p class="phase-goal">The skeleton. Nothing visible to the user yet, but everything that runs beneath it.</p>
         <ul class="phase-tasks">
-          <li><span class="task-dot"></span>Order taking system</li>
-          <li><span class="task-dot"></span>Order management</li>
-          <li><span class="task-dot"></span>Billing & receipts</li>
-          <li><span class="task-dot"></span>Payment recording</li>
+          <li><span class="task-dot"></span>JavaFX project setup &amp; scene structure</li>
+          <li><span class="task-dot"></span>MySQL schema — all 12 tables defined</li>
+          <li><span class="task-dot"></span>Role-based login with PIN keypad</li>
+          <li><span class="task-dot"></span>Staff account management screen</li>
+          <li><span class="task-dot"></span>Restaurant settings &amp; tax configuration</li>
         </ul>
+        <div class="phase-badges">
+          <span class="pbadge core">Core</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: working login system</div>
       </div>
 
       <div class="phase">
-        <div class="phase-num">3</div>
+        <div class="phase-top-row">
+          <div class="phase-num">2</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
+        <div class="phase-weeks">Week 2</div>
+        <h4>Menu &amp; Order Engine</h4>
+        <p class="phase-goal">The heart of the POS. Staff can now take real orders.</p>
+        <ul class="phase-tasks">
+          <li><span class="task-dot"></span>Full menu CRUD with categories</li>
+          <li><span class="task-dot"></span>Table-based ordering screen</li>
+          <li><span class="task-dot"></span>Item notes &amp; quantity controls</li>
+          <li><span class="task-dot"></span>Hold &amp; recall orders</li>
+          <li><span class="task-dot"></span>Sold-out toggle per item</li>
+        </ul>
+        <div class="phase-badges">
+          <span class="pbadge core">Core</span><span class="pbadge pro">Professional</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: live ordering demo</div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-top-row">
+          <div class="phase-num">3</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
         <div class="phase-weeks">Week 3</div>
-        <h4>Full System</h4>
+        <h4>Billing &amp; Payments</h4>
+        <p class="phase-goal">Money in, receipts out. The transaction is complete.</p>
         <ul class="phase-tasks">
-          <li><span class="task-dot"></span>Inventory management</li>
-          <li><span class="task-dot"></span>Sales reports</li>
-          <li><span class="task-dot"></span>Low stock alerts</li>
-          <li><span class="task-dot"></span>Full system testing</li>
+          <li><span class="task-dot"></span>Auto bill generation with tax</li>
+          <li><span class="task-dot"></span>Cash &amp; card payment flow</li>
+          <li><span class="task-dot"></span>Thermal receipt printing (ESCPOS)</li>
+          <li><span class="task-dot"></span>Discounts &amp; promos with reason codes</li>
+          <li><span class="task-dot"></span>Split bill &amp; bill reprint</li>
         </ul>
+        <div class="phase-badges">
+          <span class="pbadge core">Core</span><span class="pbadge pro">Professional</span><span class="pbadge wow">Wow</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: end-to-end order → payment demo</div>
       </div>
 
       <div class="phase">
-        <div class="phase-num">4</div>
+        <div class="phase-top-row">
+          <div class="phase-num">4</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
         <div class="phase-weeks">Week 4</div>
-        <h4>Handover</h4>
+        <h4>Inventory, Wow &amp; Visual Map</h4>
+        <p class="phase-goal">The features that make this feel premium — and keep stock under control.</p>
         <ul class="phase-tasks">
-          <li><span class="task-dot"></span>Final delivery</li>
-          <li><span class="task-dot"></span>System installation</li>
-          <li><span class="task-dot"></span>Staff training</li>
-          <li><span class="task-dot"></span>30 days support</li>
+          <li><span class="task-dot"></span>Visual table map (free / occupied / billing)</li>
+          <li><span class="task-dot"></span>Item photos on ordering screen</li>
+          <li><span class="task-dot"></span>Stock management &amp; auto deduction</li>
+          <li><span class="task-dot"></span>Stock adjustment log &amp; supplier directory</li>
+          <li><span class="task-dot"></span>Table transfer between cashiers</li>
         </ul>
+        <div class="phase-badges">
+          <span class="pbadge pro">Professional</span><span class="pbadge wow">Wow</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: full floor plan &amp; inventory demo</div>
       </div>
 
+      <div class="phase">
+        <div class="phase-top-row">
+          <div class="phase-num">5</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
+        <div class="phase-weeks">Week 5</div>
+        <h4>Reports, Cloud Sync &amp; Security</h4>
+        <p class="phase-goal">Everything the owner needs to run the business — from a phone, anywhere.</p>
+        <ul class="phase-tasks">
+          <li><span class="task-dot"></span>Full analytics dashboard (7 report types)</li>
+          <li><span class="task-dot"></span>Peak hours heatmap &amp; cashier performance</li>
+          <li><span class="task-dot"></span>End-of-day closing report (printable)</li>
+          <li><span class="task-dot"></span>Auto cloud sync to VPS &amp; daily backups</li>
+          <li><span class="task-dot"></span>Session timeout &amp; full activity log</li>
+          <li><span class="task-dot"></span>Export to PDF &amp; CSV</li>
+        </ul>
+        <div class="phase-badges">
+          <span class="pbadge pro">Professional</span><span class="pbadge wow">Wow</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: owner accesses live reports remotely</div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-top-row">
+          <div class="phase-num">6</div>
+          <div class="phase-status upcoming-badge">Upcoming</div>
+        </div>
+        <div class="phase-weeks">Week 6</div>
+        <h4>Testing, Handover &amp; Training</h4>
+        <p class="phase-goal">Not just delivered — installed, tested, and understood by your team.</p>
+        <ul class="phase-tasks">
+          <li><span class="task-dot"></span>Full end-to-end system testing</li>
+          <li><span class="task-dot"></span>Stress test: 50+ simultaneous orders</li>
+          <li><span class="task-dot"></span>On-site installation at restaurant</li>
+          <li><span class="task-dot"></span>Staff training session (Admin + Cashier)</li>
+          <li><span class="task-dot"></span>30-day post-launch support included</li>
+          <li><span class="task-dot"></span>Source code &amp; documentation handover</li>
+        </ul>
+        <div class="phase-badges">
+          <span class="pbadge handover">Handover</span>
+        </div>
+        <div class="phase-deliverable">📦 Deliverable: live restaurant, trained staff</div>
+      </div>
+
+    </div>
+
+    <div class="tl-guarantee">
+      <div class="tl-g-item">
+        <span class="tl-g-icon">🔄</span>
+        <div>
+          <strong>Demo at end of every week</strong>
+          <span>You review progress before the next phase starts</span>
+        </div>
+      </div>
+      <div class="tl-g-item">
+        <span class="tl-g-icon">🛠️</span>
+        <div>
+          <strong>30 days post-launch support</strong>
+          <span>Bug fixes and tweaks at no extra cost</span>
+        </div>
+      </div>
+      <div class="tl-g-item">
+        <span class="tl-g-icon">📁</span>
+        <div>
+          <strong>Full source code ownership</strong>
+          <span>You own everything — no lock-in, no subscriptions</span>
+        </div>
+      </div>
+      <div class="tl-g-item">
+        <span class="tl-g-icon">☁️</span>
+        <div>
+          <strong>Cloud backup from day one</strong>
+          <span>Never lose a day of transactions — ever</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tech-section">
+  <div class="tech-inner">
+    <div class="tech-header">
+      <p class="section-label">Technology</p>
+      <h2 class="section-title">B4 — The professional<br>architecture choice</h2>
+      <p class="section-body">This isn't a web app on a Chromebook. It's a real desktop application with a real database — built the way professional restaurant software is built.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card-icon">☕</div>
+        <h4>JavaFX Desktop App</h4>
+        <p>Native Windows application — fast, reliable, no browser needed. Runs offline always. Feels like real software because it is.</p>
+        <div class="tech-pill">Frontend</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🗄️</div>
+        <h4>Local MySQL Database</h4>
+        <p>All data lives on your restaurant PC. Zero internet dependency for daily operations — even if the connection drops, the POS keeps running.</p>
+        <div class="tech-pill">Data Layer</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">☁️</div>
+        <h4>VPS Cloud Sync</h4>
+        <p>A background thread pushes every transaction to a cloud server. Owner sees live data from a phone or laptop — anywhere in the world.</p>
+        <div class="tech-pill">Cloud</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🖨️</div>
+        <h4>ESCPOS Thermal Printing</h4>
+        <p>Prints directly to your 80mm receipt printer over USB or network. No Windows drivers needed. Fast, silent, and always reliable.</p>
+        <div class="tech-pill">Hardware</div>
+      </div>
+    </div>
+    <div class="tech-b4-note">
+      <div class="b4-icon">⭐</div>
+      <div>
+        <strong>Why B4 (JavaFX + Hybrid Sync)?</strong>
+        <p>Local database means the POS never goes down when the internet does. Cloud sync means the owner is never out of the loop. The gold standard for real restaurant software — and what this system is built on.</p>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- CLOSING -->
+
 <div class="closing-section">
   <div class="closing-glow"></div>
-  <p class="closing-label">Ready to begin</p>
-  <h2 class="closing-title">Let's build your<br><em>new system</em></h2>
-  <p class="closing-body">This is a complete, working system built specifically for your restaurant. No subscriptions, no monthly fees — a system that belongs to you.</p>
-  <div class="contact-cards">
-    <div class="contact-card">
-      <div class="contact-card-lbl">Developed by</div>
-      <div class="contact-card-val">Nimesh Milan Dhananjaya</div>
+
+  <div class="closing-inner">
+    <p class="closing-label">Ready to begin</p>
+    <h2 class="closing-title">Let's build your<br><em>new system</em></h2>
+    <p class="closing-body">A complete, working restaurant POS — 38 features, 6 weeks, yours forever. No monthly subscription. No licence fee. No cloud lock-in. A system that belongs to you.</p>
+
+    <div class="closing-stats">
+      <div class="cs-item"><span class="cs-num">38</span><span class="cs-lbl">Features delivered</span></div>
+      <div class="cs-div"></div>
+      <div class="cs-item"><span class="cs-num">6</span><span class="cs-lbl">Weeks to completion</span></div>
+      <div class="cs-div"></div>
+      <div class="cs-item"><span class="cs-num">30</span><span class="cs-lbl">Days free support</span></div>
+      <div class="cs-div"></div>
+      <div class="cs-item"><span class="cs-num">∞</span><span class="cs-lbl">Your ownership</span></div>
     </div>
-    <div class="contact-card">
-      <div class="contact-card-lbl">Contact</div>
-      <div class="contact-card-val">0789 131 948</div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-card-lbl">Prepared for</div>
-      <div class="contact-card-val" style="color:rgba(255,255,255,0.25); font-style:italic;">________________________</div>
+
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-card-lbl">Developed by</div>
+        <div class="contact-card-val">Nimesh Milan Dhananjaya</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-lbl">Contact</div>
+        <div class="contact-card-val">0789 131 948</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-lbl">Architecture</div>
+        <div class="contact-card-val" style="color:var(--gold-light)">B4 — Hybrid Sync</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-lbl">Prepared for</div>
+        <div class="contact-card-val" style="color:rgba(255,255,255,0.22); font-style:italic;">Machan Restaurant</div>
+      </div>
     </div>
   </div>
 </div>
