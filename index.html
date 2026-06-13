@@ -562,6 +562,11 @@ body {
 .contact-card { padding: 22px 36px; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; min-width: 190px; text-align: left; }
 .contact-card-lbl { font-size: 10px; color: rgba(255,255,255,0.22); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; font-weight: 500; }
 .contact-card-val { font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: -0.2px; }
+.closing-nav-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 36px; position: relative; }
+.closing-nav-btn { padding: 14px 30px; border-radius: 10px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all .2s; border: 1.5px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+.closing-nav-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+.closing-nav-btn.primary { background: var(--gold); border-color: var(--gold); color: #fff; }
+.closing-nav-btn.primary:hover { background: var(--gold-light); border-color: var(--gold-light); }
 
 /* ══ RESPONSIVE OVERRIDES ══ */
 @media (max-width: 900px) {
@@ -713,6 +718,8 @@ body {
   .closing-stats { flex-direction: column; width: 100%; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; }
   .cs-item { width: 100%; padding: 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); flex: unset; }
   .cs-item:last-child { border-bottom: none; }
+  .closing-nav-links { flex-direction: column; align-items: stretch; }
+  .closing-nav-btn { text-align: center; }
 }
 
 @media print {
@@ -721,9 +728,39 @@ body {
   .hero-main { padding: 60px 40px; }
   * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
+
+/* ═══════════════════════ SHARED SITE BAR ═══════════════════════ */
+.sitebar{background:#0E0E0E;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:200;font-family:'Inter',sans-serif}
+.sitebar-in{display:flex;align-items:center;justify-content:space-between;max-width:1160px;margin:0 auto;padding:10px 24px;gap:16px}
+.sitebar-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:#fff;white-space:nowrap;text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.sitebar-brand em{font-style:italic;color:#D4A85C}
+.sitebar-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sitebar-links::-webkit-scrollbar{display:none}
+.sitebar-link{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);text-decoration:none;border:1px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.sitebar-link:hover{color:rgba(255,255,255,0.8)}
+.sitebar-link.active{background:rgba(184,135,58,0.12);border-color:rgba(184,135,58,0.25);color:#D4A85C}
+@media(max-width:640px){
+  .sitebar-in{padding:8px 16px;gap:10px}
+  .sitebar-brand{font-size:12px}
+  .sitebar-link{padding:6px 11px;font-size:11px}
+}
+@media print { .sitebar{display:none} }
 </style>
 </head>
 <body>
+
+<!-- SITE BAR -->
+<div class="sitebar">
+  <div class="sitebar-in">
+    <a class="sitebar-brand" href="index.html">B4 <em>Restaurant POS</em></a>
+    <div class="sitebar-links">
+      <a class="sitebar-link active" href="index.html">Proposal</a>
+      <a class="sitebar-link" href="pricing.html">Pricing</a>
+      <a class="sitebar-link" href="features.html">Features</a>
+    </div>
+  </div>
+</div>
+
 
 <div class="hero">
   <div class="hero-noise"></div>
@@ -808,7 +845,7 @@ body {
     <div class="features-top">
       <div>
         <p class="section-label">B4 Feature Set — Professional POS</p>
-        <h2 class="section-title">38 features across<br>seven modules</h2>
+        <h2 class="section-title">37 features across<br>seven modules</h2>
       </div>
       <div>
         <p class="section-body">Every part of your restaurant is covered — from login to cloud sync. Features are colour-coded by build phase so you know exactly what ships when.</p>
@@ -1329,12 +1366,12 @@ body {
 
     <div class="feature-summary">
       <div class="fs-block core-block">
-        <div class="fs-num">14</div>
+        <div class="fs-num">11</div>
         <div class="fs-label">Core Features</div>
         <div class="fs-sub">Must have for launch</div>
       </div>
       <div class="fs-block pro-block">
-        <div class="fs-num">15</div>
+        <div class="fs-num">17</div>
         <div class="fs-label">Professional Features</div>
         <div class="fs-sub">Separates you from amateurs</div>
       </div>
@@ -1885,10 +1922,10 @@ body {
   <div class="closing-inner">
     <p class="closing-label">Ready to begin</p>
     <h2 class="closing-title">Let's build your<br><em>new system</em></h2>
-    <p class="closing-body">A complete, working restaurant POS — 38 features, 6 weeks, yours forever. No monthly subscription. No licence fee. No cloud lock-in. A system that belongs to you.</p>
+    <p class="closing-body">A complete, working restaurant POS — 37 features, 6 weeks, yours forever. No monthly subscription. No licence fee. No cloud lock-in. A system that belongs to you.</p>
 
     <div class="closing-stats">
-      <div class="cs-item"><span class="cs-num">38</span><span class="cs-lbl">Features delivered</span></div>
+      <div class="cs-item"><span class="cs-num">37</span><span class="cs-lbl">Features delivered</span></div>
       <div class="cs-div"></div>
       <div class="cs-item"><span class="cs-num">6</span><span class="cs-lbl">Weeks to completion</span></div>
       <div class="cs-div"></div>
@@ -1914,6 +1951,11 @@ body {
         <div class="contact-card-lbl">Prepared for</div>
         <div class="contact-card-val" style="color:rgba(255,255,255,0.22); font-style:italic;">Marine Drive Restaurant</div>
       </div>
+    </div>
+
+    <div class="closing-nav-links">
+      <a class="closing-nav-btn primary" href="pricing.html">Build Your Price →</a>
+      <a class="closing-nav-btn" href="features.html">Explore All Features</a>
     </div>
   </div>
 </div>
