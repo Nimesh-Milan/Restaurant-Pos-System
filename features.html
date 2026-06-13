@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POS System — Feature Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0E0E0E;--ink2:#141414;--ink3:#1A1A1A;
+  --gold:#B8873A;--gold-l:#D4A85C;--gold-dim:rgba(184,135,58,0.12);--gold-border:rgba(184,135,58,0.25);
+  --white:#fff;--border:rgba(255,255,255,0.07);
+  --green:#22C55E;--green-bg:rgba(34,197,94,0.09);--green-b:rgba(34,197,94,0.22);
+  --blue:#60A5FA;--blue-bg:rgba(96,165,250,0.09);--blue-b:rgba(96,165,250,0.2);
+  --r:12px;--r-lg:18px;--r-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--ink2);color:var(--white);-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{background:var(--ink);padding:64px 0 48px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero-glow{position:absolute;width:600px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(184,135,58,0.11) 0%,transparent 70%);top:-80px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero-inner{position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:100px;padding:5px 14px;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(32px,5.5vw,52px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero-sub{font-size:14.5px;color:rgba(255,255,255,0.4);font-weight:300;max-width:600px;line-height:1.8;margin-bottom:28px}
+.hero-summary{display:flex;gap:10px;flex-wrap:wrap}
+.hsum{flex:1;min-width:140px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.hsum-n{font-family:'Fraunces',serif;font-size:26px;font-weight:700;line-height:1;margin-bottom:4px}
+.hsum.core .hsum-n{color:var(--green)}
+.hsum.pro .hsum-n{color:var(--blue)}
+.hsum.wow .hsum-n{color:var(--gold-l)}
+.hsum-l{font-size:10px;color:rgba(255,255,255,0.32);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.hsum-d{font-size:11px;color:rgba(255,255,255,0.28);margin-top:3px;font-weight:300;line-height:1.5}
+
+/* LEGEND / NAV */
+.legend-bar{background:var(--ink3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;padding:14px 0}
+.legend-in{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:6px;font-size:11.5px;color:rgba(255,255,255,0.5);font-weight:500}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot.core{background:var(--green)}
+.dot.pro{background:var(--blue)}
+.dot.wow{background:var(--gold-l)}
+.legend-jump{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.jump{padding:5px 10px;border-radius:6px;font-size:10.5px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.jump:hover{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-l)}
+
+/* SECTION */
+.sec{padding:48px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.sec:last-child{border-bottom:none}
+.mod-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.mod-ico{width:44px;height:44px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.mod-title{font-family:'Fraunces',serif;font-size:24px;font-weight:700}
+.mod-count{font-size:11px;color:rgba(255,255,255,0.3);font-weight:500;margin-top:2px}
+.mod-desc{font-size:13.5px;color:rgba(255,255,255,0.4);font-weight:300;line-height:1.75;max-width:680px;margin:14px 0 28px}
+
+/* FEATURE CARDS */
+.feat{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:20px 22px;margin-bottom:12px;position:relative;padding-left:26px}
+.feat::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.feat.core::before{background:var(--green)}
+.feat.pro::before{background:var(--blue)}
+.feat.wow::before{background:var(--gold-l)}
+.feat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.feat-name{font-size:15px;font-weight:600;color:var(--white)}
+.tier-pill{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;border-radius:100px;flex-shrink:0}
+.tier-pill.core{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b)}
+.tier-pill.pro{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-b)}
+.tier-pill.wow{background:var(--gold-dim);color:var(--gold-l);border:1px solid var(--gold-border)}
+.feat-block{margin-top:10px}
+.feat-label{font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:4px}
+.feat-text{font-size:13px;color:rgba(255,255,255,0.62);font-weight:300;line-height:1.7}
+.feat-text.usage{color:rgba(255,255,255,0.5)}
+.feat-divider{height:1px;background:rgba(255,255,255,0.05);margin:14px 0}
+
+/* CLOSING */
+.closing{text-align:center;padding:56px 24px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r-lg);margin:48px 0}
+.closing h2{font-family:'Fraunces',serif;font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-1px;margin-bottom:12px}
+.closing h2 em{font-style:italic;color:var(--gold-l)}
+.closing p{font-size:13.5px;color:rgba(255,255,255,0.35);max-width:480px;margin:0 auto;font-weight:300;line-height:1.75}
+.closing-nav-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.closing-nav-btn{padding:12px 26px;border-radius:9px;font-size:12.5px;font-weight:600;text-decoration:none;border:1.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);transition:all .2s}
+.closing-nav-btn:hover{border-color:rgba(255,255,255,0.22);color:var(--white)}
+.closing-nav-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
+.closing-nav-btn.primary:hover{background:var(--gold-l);border-color:var(--gold-l)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .hero{padding:44px 0 36px}
+  .sec{padding:36px 0}
+  .legend-in{gap:10px}
+  .legend-jump{width:100%;margin-left:0;justify-content:flex-start}
+  .mod-head{gap:10px}
+  .mod-ico{width:38px;height:38px;font-size:18px}
+  .mod-title{font-size:20px}
+  .feat{padding:16px 16px 16px 22px}
+  .hero-summary{flex-direction:column}
+  .closing-nav-links{flex-direction:column;align-items:stretch}
+  .closing-nav-btn{text-align:center}
+}
+
+/* ═══════════════════════ SHARED SITE BAR ═══════════════════════ */
+.sitebar{background:#0E0E0E;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:200;font-family:'Inter',sans-serif}
+.sitebar-in{display:flex;align-items:center;justify-content:space-between;max-width:1160px;margin:0 auto;padding:10px 24px;gap:16px}
+.sitebar-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:#fff;white-space:nowrap;text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.sitebar-brand em{font-style:italic;color:#D4A85C}
+.sitebar-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sitebar-links::-webkit-scrollbar{display:none}
+.sitebar-link{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);text-decoration:none;border:1px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.sitebar-link:hover{color:rgba(255,255,255,0.8)}
+.sitebar-link.active{background:rgba(184,135,58,0.12);border-color:rgba(184,135,58,0.25);color:#D4A85C}
+.legend-bar{top:49px}
+@media(max-width:640px){
+  .sitebar-in{padding:8px 16px;gap:10px}
+  .sitebar-brand{font-size:12px}
+  .sitebar-link{padding:6px 11px;font-size:11px}
+  .legend-bar{top:41px}
+}
+</style>
+</head>
+<body>
+
+<!-- SITE BAR -->
+<div class="sitebar">
+  <div class="sitebar-in">
+    <a class="sitebar-brand" href="index.html">B4 <em>Restaurant POS</em></a>
+    <div class="sitebar-links">
+      <a class="sitebar-link" href="index.html">Proposal</a>
+      <a class="sitebar-link" href="pricing.html">Pricing</a>
+      <a class="sitebar-link active" href="features.html">Features</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner wrap">
+    <div class="eyebrow">System Feature Guide</div>
+    <h1>What your system<br><em>actually does.</em></h1>
+    <p class="hero-sub">A plain-language walkthrough of every feature in your restaurant POS — what it does on screen, and why it matters for your day-to-day operations. Organised into 7 modules, 37 features total.</p>
+    <div class="hero-summary">
+      <div class="hsum core">
+        <div class="hsum-n">11</div>
+        <div class="hsum-l">Core Features</div>
+        <div class="hsum-d">Essential — the system can't run without these</div>
+      </div>
+      <div class="hsum pro">
+        <div class="hsum-n">17</div>
+        <div class="hsum-l">Professional Features</div>
+        <div class="hsum-d">Saves time, prevents disputes, adds accountability</div>
+      </div>
+      <div class="hsum wow">
+        <div class="hsum-n">9</div>
+        <div class="hsum-l">Wow Factor Features</div>
+        <div class="hsum-d">Optional extras that impress staff &amp; guests</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGEND / JUMP NAV -->
+<div class="legend-bar">
+  <div class="wrap legend-in">
+    <span class="leg"><span class="dot core"></span>Core</span>
+    <span class="leg"><span class="dot pro"></span>Professional</span>
+    <span class="leg"><span class="dot wow"></span>Wow Factor</span>
+    <div class="legend-jump">
+      <a class="jump" href="#auth">Auth</a>
+      <a class="jump" href="#menu">Menu</a>
+      <a class="jump" href="#orders">Orders</a>
+      <a class="jump" href="#billing">Billing</a>
+      <a class="jump" href="#inventory">Inventory</a>
+      <a class="jump" href="#reports">Reports</a>
+      <a class="jump" href="#cloud">Cloud Sync</a>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">🔐</div>
+      <div>
+        <div class="mod-title">Authentication &amp; User Management</div>
+        <div class="mod-count">4 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Controls who can access the system and what they can see. This is the foundation — every staff member logs in with their own account, and the system keeps a record of what happens on each shift.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Role-based Login</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Each staff member logs in with their own username and PIN. Admins and cashiers see different screens — cashiers get the ordering and billing tools, while admins also get menu editing, reports, and settings.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You control exactly what each staff member can touch. A new cashier can take orders and print bills on day one without being able to change prices or delete menu items by mistake.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Session Timeout</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">If the till is left untouched for a set period, the screen automatically locks. Whoever wants to use it again has to enter their PIN.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Stops a logged-in cashier's session being used by someone else when they step away — especially useful during busy shift changes or when staff walk off to the kitchen mid-order.</div></div>
+    </div>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Staff Account Management</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">From the admin screen, you can add a new staff account, edit details, or deactivate someone who has left — all without needing a developer to touch anything.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">High staff turnover is normal in restaurants. When someone leaves, you switch off their account in seconds — no risk of an ex-employee still having access.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Activity Log</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Every login, logout, order void, and discount applied is recorded with a timestamp and the name of the staff member who did it.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If a bill total looks wrong or cash doesn't match at closing, you can trace exactly who did what and when — instead of guessing or accusing staff without proof.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">🍽️</div>
+      <div>
+        <div class="mod-title">Menu Management</div>
+        <div class="mod-count">5 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Everything to do with what you sell — adding dishes, organising them into categories, marking items unavailable, and keeping a record of price changes over time.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Full Menu CRUD</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Add, edit, or delete any menu item — name, price, category, and description — directly from the system. CRUD means Create, Read, Update, Delete: the four basic things you need to manage your menu.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">When you add a new dish or change a price, it updates instantly across every till in the restaurant — no reprinting menus or retraining cashiers on new item codes.</div></div>
+    </div>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Categories</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Menu items are grouped into categories like Rice, Kottu, Drinks, and Desserts, shown as tabs on the ordering screen.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Cashiers find items faster during busy periods because they're not scrolling through one long list — they tap the category tab first, then the item.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Item Photos</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Upload a photo for any menu item. The photo appears on the ordering screen next to the item name and price.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">New or part-time staff can recognise dishes visually instead of memorising names — useful when you have a large or frequently-changing menu, and it makes the system feel more polished for anyone watching the screen.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Sold Out Toggle</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">With one tap, mark any item as unavailable for the day. It greys out on the ordering screen so it can't be selected.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If the kitchen runs out of an ingredient mid-shift, you stop staff from taking orders for that dish — avoiding the awkward "sorry, that's finished" conversation after the order's already placed.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Price History Log</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Every time a menu item's price is changed, the system records the old price, new price, date, and who made the change.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Gives you a clear record if a customer disputes a price, or if you want to review how your pricing has changed over the months — useful for planning future price increases.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<div id="orders" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">🛒</div>
+      <div>
+        <div class="mod-title">Order Management</div>
+        <div class="mod-count">6 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">How orders are taken, tracked, and managed across your dining room — from the moment a customer sits down to the moment they're ready to pay.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Table-Based Ordering</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Cashiers select a table, add items with quantities, and the order is tied to that table. Multiple tables can have open orders at the same time.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">This is the core of how a restaurant works — different tables ordering at different times, all tracked separately, so nothing gets mixed up between customers.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Visual Table Map</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">A floor-plan view of your restaurant where each table shows its live status — free (green), occupied (red/amber), or ready for billing — at a glance.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Whoever's managing the floor can see the whole restaurant's status in one screen — which tables need attention, which are ready to pay, and which are free for new customers — without walking around to check.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Order Modification &amp; Void</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Items can be edited or removed from an active order. Any removal (void) requires a reason, and it's logged with the staff member's name.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Mistakes happen — a customer changes their mind, or a cashier taps the wrong item. This lets staff fix it properly, while giving you a record so voids can't be used to quietly remove paid items from the till.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Item Notes</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Cashiers can add a short note to any item in an order — like "no chilli" or "extra sauce" — and it prints on the kitchen receipt.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Special requests reach the kitchen in writing instead of being shouted across the restaurant or forgotten — fewer remade dishes and fewer unhappy customers.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Table Transfer</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">An active order can be moved from one table to another with a couple of taps — all items, quantities, and notes move with it.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Customers sometimes ask to move to a different table mid-meal — maybe for more space, shade, or a better view. Instead of starting the order over, staff just transfer it.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Hold &amp; Recall Orders</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">An incomplete order can be "parked" and brought back later without losing any items already added.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Useful when a customer says "give us a few more minutes" before finalising their order, or when a cashier gets interrupted — nothing is lost, and they can pick up exactly where they left off.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BILLING -->
+<div id="billing" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">🧾</div>
+      <div>
+        <div class="mod-title">Billing &amp; Payments</div>
+        <div class="mod-count">6 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Turns a finished order into a printed bill, takes payment, and keeps a record of every transaction.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Auto Bill Generation</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">With one tap, the system generates a full itemised bill — every item, the subtotal, tax, and the final total — calculated automatically.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">No manual addition, no calculator, no arithmetic mistakes on busy nights. The bill is accurate every single time.</div></div>
+    </div>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Thermal Receipt Printing</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">The bill prints directly to a standard 80mm thermal receipt printer — the same type used at most shops and restaurants — with no extra driver software needed.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Customers get a proper printed receipt immediately, just like they'd expect anywhere else — and it works with affordable, widely-available printer hardware.</div></div>
+    </div>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Cash &amp; Card Payment</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Record how the customer paid — cash or card — and for cash payments, the system automatically calculates the change due.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">No mental maths for change, and every bill is marked as paid with a record of how — useful for end-of-day cash reconciliation.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Discounts &amp; Promos</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Apply a percentage or fixed-amount discount to a bill. A reason must be entered, and it's logged against the staff member who applied it.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You can run promotions or give loyal customers a discount, while keeping control — every discount is recorded, so staff can't quietly give away free food without a trace.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Split Bill</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Divide one table's bill between multiple customers, so each person can pay their own portion separately.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Groups of friends or coworkers splitting a bill is extremely common — this avoids the awkward manual splitting and re-totalling that slows down busy tables.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Bill Reprint</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Any previous receipt can be found in history and reprinted exactly as it was originally.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If a customer loses their receipt or needs a copy for expense claims, staff can reprint it in seconds instead of recreating the bill from memory.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY -->
+<div id="inventory" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">📦</div>
+      <div>
+        <div class="mod-title">Inventory &amp; Stock</div>
+        <div class="mod-count">4 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Keeps track of the ingredients and supplies you have on hand, warns you before you run out, and records who's changed stock levels and why.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Stock Item Management</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Add ingredients and supplies to the system with their current stock level, unit of measurement (kg, litres, packs etc.), and a minimum level you want to maintain.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You get a single, accurate view of what's in your stockroom — instead of relying on someone's memory or a notebook that's easy to lose track of.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Auto Stock Deduction</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">When a dish is ordered, the ingredients linked to that dish are automatically subtracted from your stock levels — no manual stock entry needed.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Your stock numbers stay accurate in real time without anyone having to count and update manually after every order — a big time-saver as order volume grows.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Stock Adjustment Log</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Any time someone manually changes a stock quantity — for example after a delivery or to correct a count — it's logged with the reason, quantity, and staff name.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If stock numbers don't add up at month-end, you can trace back through the adjustment history to find out where and why.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Supplier Directory</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Store supplier names, contact details, and which stock items each supplier provides.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">When you get a low-stock alert, the supplier's contact details are right there — no digging through old invoices or phone contacts to find who to call.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div id="reports" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">📊</div>
+      <div>
+        <div class="mod-title">Reports &amp; Analytics</div>
+        <div class="mod-count">7 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Turns your daily transactions into numbers you can actually use — for managing staff, planning purchases, talking to your accountant, and understanding what's actually making you money.</p>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Daily / Weekly / Monthly Revenue</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">View total sales, number of orders, and average bill value for any date range you choose.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You always know how the business is doing — whether today was better or worse than last week, and whether your average customer is spending more or less over time.</div></div>
+    </div>
+
+    <div class="feat core">
+      <div class="feat-top"><span class="feat-name">Best-Selling Items</span><span class="tier-pill core">Core</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">A ranked list of your dishes by how many were sold and how much revenue they generated, for any time period.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You know exactly which dishes to keep promoting, which ingredients to stock more of, and which underperforming items might be worth dropping from the menu.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Peak Hours Heatmap</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">A visual grid showing which hours and days of the week are busiest, based on your actual order history.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Helps you schedule staff where and when they're actually needed — more hands during your real busy periods, fewer idle staff during quiet ones.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Cashier Performance</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">See how many orders each staff member handled, how many discounts they gave, and how many voids they made.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Gives you an objective way to recognise your best staff and spot unusual patterns — like one cashier consistently giving far more discounts or voids than everyone else.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">End-of-Day Closing Report</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">One click produces a printable daily summary: total cash collected, card payments, discounts given, and voids made.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Closing up at the end of the night takes minutes instead of manually adding up receipts — and the cash drawer can be checked against the report immediately.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Expense Tracking</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Log day-to-day expenses — gas, ingredient purchases, wages, repairs — directly in the system.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Your reports show real profit (revenue minus expenses), not just total sales — giving you a far more honest picture of how the business is actually performing.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Export to PDF &amp; CSV</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Any report can be exported as a printable PDF or as a CSV file that opens in Excel or Google Sheets.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Makes life easier when you need to hand financial data to your accountant, apply for a loan, or do your own deeper analysis in a spreadsheet.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOUD -->
+<div id="cloud" class="sec">
+  <div class="wrap">
+    <div class="mod-head">
+      <div class="mod-ico">☁️</div>
+      <div>
+        <div class="mod-title">System &amp; Cloud Sync</div>
+        <div class="mod-count">5 features</div>
+      </div>
+    </div>
+    <p class="mod-desc">Keeps your data safe, lets you check in on the restaurant remotely, and handles the behind-the-scenes setup and updates so the system stays reliable.</p>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Auto Cloud Sync</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Every transaction is automatically sent to a secure cloud server in the background as it happens.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">You can check sales, reports, and what's happening at the restaurant from your phone or another computer — even if you're not physically there.</div></div>
+    </div>
+
+    <div class="feat wow">
+      <div class="feat-top"><span class="feat-name">Automatic Backups</span><span class="tier-pill wow">Wow Factor</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">The system automatically backs up your data daily — both to a local copy and to the cloud.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If the till computer breaks, gets stolen, or has a hard drive failure, your menu, reports, and history can be restored on a new machine in about 30 minutes — instead of losing everything.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Restaurant Settings</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">Configure your restaurant's name, address, tax rate, and the message printed at the bottom of receipts — all from a settings screen.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">If your tax rate changes, or you want to add a "Thank you, see you again!" message to receipts, you can update it yourself in seconds — no developer needed.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Update Mechanism</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">When the system starts up, it checks if a newer version is available and prompts the admin to update with one click.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">Bug fixes and improvements reach your system without needing someone to visit in person and manually reinstall software.</div></div>
+    </div>
+
+    <div class="feat pro">
+      <div class="feat-top"><span class="feat-name">Sync Status Indicator</span><span class="tier-pill pro">Professional</span></div>
+      <div class="feat-block"><div class="feat-label">What it does</div><div class="feat-text">A small indicator on screen shows the last time data was synced to the cloud, with a green, amber, or red status for the connection.</div></div>
+      <div class="feat-divider"></div>
+      <div class="feat-block"><div class="feat-label">Why it matters to you</div><div class="feat-text usage">At a glance, you or your staff can see if the internet connection is working properly — so if something looks wrong, you know to check the connection rather than assume the system is broken.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="sec">
+  <div class="wrap">
+    <div class="closing">
+      <h2>That's <em>everything</em> — in plain words.</h2>
+      <p>37 features, 7 modules, one system. Every feature here is colour-coded the same way in your pricing builder, so you can match what's described here to exactly what's included in your chosen plan.</p>
+      <div class="closing-nav-links">
+        <a class="closing-nav-btn primary" href="pricing.html">Build Your Price →</a>
+        <a class="closing-nav-btn" href="index.html">← Back to Proposal</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

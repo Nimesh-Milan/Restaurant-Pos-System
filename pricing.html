@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant POS — Interactive Pricing</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0E0E0E;--ink2:#141414;--ink3:#1A1A1A;
+  --gold:#B8873A;--gold-l:#D4A85C;--gold-dim:rgba(184,135,58,0.12);--gold-border:rgba(184,135,58,0.25);
+  --white:#fff;--mid:#6B6860;--border:rgba(255,255,255,0.07);
+  --green:#22C55E;--green-bg:rgba(34,197,94,0.09);--green-b:rgba(34,197,94,0.22);
+  --red:#EF4444;--red-bg:rgba(239,68,68,0.07);
+  --blue:#60A5FA;
+  --r:12px;--r-lg:18px;--r-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--ink2);color:var(--white);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+
+/* LAYOUT */
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{background:var(--ink);padding:64px 0 56px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-glow{position:absolute;width:600px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(184,135,58,0.11) 0%,transparent 70%);top:-80px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;text-align:center}
+.eyebrow-pill{display:inline-flex;align-items:center;gap:7px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:100px;padding:5px 14px;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(40px,7vw,76px);font-weight:900;line-height:0.93;letter-spacing:-2.5px;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.35);font-weight:300;max-width:420px;margin:0 auto 44px;line-height:1.8}
+.hero-stats{display:flex;justify-content:center;border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:500px;margin:0 auto}
+.hs{flex:1;padding:18px 16px;text-align:center;border-right:1px solid var(--border)}
+.hs:last-child{border-right:none}
+.hs-n{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--gold-l);line-height:1}
+.hs-l{font-size:9px;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:1.8px;margin-top:5px;font-weight:500}
+
+/* NAV */
+.nav{background:var(--ink);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-in{display:flex;align-items:center;gap:16px;padding:10px 24px;max-width:1120px;margin:0 auto}
+.nav-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--white);white-space:nowrap;flex-shrink:0;display:none}
+.nav-brand em{font-style:italic;color:var(--gold-l)}
+.nav-scroll{position:relative;flex:1;min-width:0;overflow:hidden}
+.nav-scroll::before,.nav-scroll::after{content:'';position:absolute;top:0;bottom:0;width:18px;z-index:2;pointer-events:none}
+.nav-scroll::before{left:0;background:linear-gradient(90deg,var(--ink),transparent)}
+.nav-scroll::after{right:0;background:linear-gradient(270deg,var(--ink),transparent)}
+.nav-tabs{display:flex;gap:4px;padding:4px 2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nt{padding:8px 14px;border-radius:8px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,0.4);cursor:pointer;border:1px solid transparent;background:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.nt:hover{color:rgba(255,255,255,0.7)}
+.nt.active{background:var(--gold-dim);color:var(--gold-l);border-color:var(--gold-border)}
+.nav-q{font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);white-space:nowrap;padding-left:14px;border-left:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:6px}
+.nav-q-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.25);display:none}
+.nav-q span{color:var(--gold-l);font-family:'Fraunces',serif;font-size:15px;font-weight:700}
+
+/* SECTION */
+.sec{padding:72px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.sec:last-child{border-bottom:none}
+.sec-eye{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:.75;margin-bottom:10px}
+.sec-h{font-family:'Fraunces',serif;font-size:clamp(26px,4vw,40px);font-weight:700;line-height:1.05;letter-spacing:-0.8px;margin-bottom:12px}
+.sec-h em{font-style:italic;color:var(--gold-l)}
+.sec-b{font-size:14px;color:rgba(255,255,255,0.36);font-weight:300;line-height:1.8;max-width:480px}
+
+/* PROBLEMS */
+#problems{background:var(--ink2)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px}
+.prob-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:24px 20px;position:relative;overflow:hidden}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);opacity:.35}
+.prob-icon{font-size:28px;margin-bottom:14px;display:block}
+.prob-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:7px}
+.prob-desc{font-size:12px;color:rgba(255,255,255,0.36);line-height:1.7;font-weight:300;margin-bottom:14px}
+.prob-fail{background:var(--red-bg);border:1px solid rgba(239,68,68,0.15);border-radius:var(--r-sm);padding:11px 13px}
+.prob-fail-lbl{font-size:9px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px}
+.prob-fail-txt{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.55}
+
+/* PLANS */
+#plans{background:var(--ink3)}
+.switcher{display:flex;gap:6px;background:rgba(255,255,255,0.04);padding:5px;border-radius:10px;margin-top:36px;width:fit-content}
+.sw-btn{padding:8px 20px;border-radius:7px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.38);cursor:pointer;border:none;background:none;transition:all .2s}
+.sw-btn.active{background:var(--gold);color:var(--white)}
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px;align-items:start}
+@media(min-width:901px){.plans-grid.cols-3{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:768px){.nav-brand{display:block}}
+.pc{background:rgba(255,255,255,0.03);border:1.5px solid rgba(255,255,255,0.07);border-radius:var(--r-lg);padding:22px 18px;position:relative}
+.pc.feat{background:var(--ink);border-color:var(--gold)}
+.pc-rec{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:100px;white-space:nowrap}
+.pc-tier{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:7px}
+.pc-name{font-family:'Fraunces',serif;font-size:19px;font-weight:700;color:var(--white);margin-bottom:5px}
+.pc-desc{font-size:11px;color:rgba(255,255,255,0.33);line-height:1.55;font-weight:300;margin-bottom:16px;min-height:44px}
+.pc-price-wrap{padding:14px 0;border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:16px}
+.pc.feat .pc-price-wrap{border-color:rgba(184,135,58,0.18)}
+.pc-orig{font-size:10.5px;color:rgba(255,255,255,0.22);text-decoration:line-through;height:15px;display:block;margin-bottom:2px}
+.pc-row{display:flex;align-items:baseline;gap:2px}
+.pc-cur{font-size:11px;font-weight:600;color:rgba(255,255,255,0.38);position:relative;top:3px}
+.pc-amt{font-family:'Fraunces',serif;font-size:34px;font-weight:900;color:var(--white);line-height:1;letter-spacing:-1.5px}
+.pc.feat .pc-amt{color:var(--gold-l)}
+.pc-unit{font-size:10px;color:rgba(255,255,255,0.28);margin-left:3px}
+.pc-pay{font-size:10px;color:rgba(255,255,255,0.28);margin-top:5px;font-weight:300}
+.pc-save{display:inline-block;background:var(--green-bg);border:1px solid var(--green-b);color:var(--green);font-size:9px;font-weight:700;padding:2px 9px;border-radius:100px;margin-top:5px}
+.pc-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.pc-feats li{font-size:11px;display:flex;align-items:flex-start;gap:7px;line-height:1.4;color:rgba(255,255,255,0.55)}
+.pc-feats li.hi{color:var(--white);font-weight:500}
+.pc-feats li.dim{color:rgba(255,255,255,0.22)}
+.chk{color:var(--green);flex-shrink:0;font-size:11px;margin-top:1px}
+.chk.g{color:var(--gold)}
+.xchk{color:rgba(255,255,255,0.18);flex-shrink:0;font-size:11px;margin-top:1px}
+.pc-cta{width:100%;padding:10px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid rgba(255,255,255,0.09);background:none;color:rgba(255,255,255,0.38);transition:all .2s;text-align:center}
+.pc.feat .pc-cta{background:var(--gold);border-color:var(--gold);color:#fff}
+.pc-cta:hover{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.65)}
+.pc.feat .pc-cta:hover{background:var(--gold-l)}
+
+/* BUILDER */
+#builder{background:var(--ink2)}
+.builder-layout{display:grid;grid-template-columns:1fr 360px;gap:28px;margin-top:44px;align-items:start}
+.bmod{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px}
+.bmod:last-child{margin-bottom:0}
+.bmod-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;user-select:none;transition:background .15s}
+.bmod-head:hover{background:rgba(255,255,255,0.02)}
+.bmod-ico{font-size:18px;width:36px;height:36px;background:var(--gold-dim);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bmod-name{font-size:13px;font-weight:600;color:var(--white);flex:1}
+.bmod-price{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--gold-l);margin-right:6px;white-space:nowrap}
+.tog{display:inline-block;width:40px;height:22px;border-radius:100px;background:rgba(255,255,255,0.1);position:relative;cursor:pointer;border:none;transition:background .2s;flex-shrink:0;vertical-align:middle}
+.tog.on{background:var(--gold)}
+.tog::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.tog.on::after{left:21px}
+.ftog{display:inline-block;width:32px;height:18px;border-radius:100px;background:rgba(255,255,255,0.08);position:relative;cursor:pointer;border:none;transition:background .2s;flex-shrink:0;margin-top:2px;vertical-align:middle}
+.ftog.on{background:var(--green)}
+.ftog::after{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .15s}
+.ftog.on::after{left:17px}
+.bmod-feats{background:rgba(0,0,0,0.12)}
+.bmod-feats.hidden{display:none}
+.bfeat{display:flex;align-items:flex-start;gap:10px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,0.03);transition:background .15s}
+.bfeat:last-child{border-bottom:none}
+.bfeat:hover{background:rgba(255,255,255,0.02)}
+.bfeat-left{display:flex;align-items:flex-start;gap:9px;flex:1;min-width:0}
+.bfeat-info{flex:1;min-width:0}
+.bfeat-name{font-size:12px;font-weight:500;color:var(--white);margin-bottom:2px}
+.bfeat-desc{font-size:10.5px;color:rgba(255,255,255,0.28);font-weight:300;line-height:1.4}
+.bfeat-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.fbadge{font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:100px}
+.fbadge.core{background:rgba(34,197,94,0.1);color:var(--green)}
+.fbadge.pro{background:rgba(96,165,250,0.1);color:var(--blue)}
+.fbadge.wow{background:var(--gold-dim);color:var(--gold)}
+.fprice{font-size:11px;font-weight:600;color:rgba(255,255,255,0.38);white-space:nowrap}
+.fprice.inc{color:var(--green);font-size:10px;font-weight:500}
+
+/* QUOTE PANEL */
+.qpanel{background:var(--ink);border:1px solid rgba(255,255,255,0.07);border-radius:var(--r-lg);padding:24px;position:sticky;top:60px}
+.qp-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:16px}
+.qp-plans{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap}
+.qpp{padding:5px 11px;border-radius:6px;font-size:10.5px;font-weight:500;border:1px solid rgba(255,255,255,0.09);background:none;color:rgba(255,255,255,0.32);cursor:pointer;transition:all .15s}
+.qpp.active{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-l)}
+.qlines{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;max-height:220px;overflow-y:auto}
+.qlines::-webkit-scrollbar{width:2px}
+.qlines::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:1px}
+.qline{display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-radius:7px;background:rgba(255,255,255,0.03);gap:6px}
+.qline.mod{background:rgba(184,135,58,0.05);border:1px solid rgba(184,135,58,0.1)}
+.qline-n{font-size:11px;color:rgba(255,255,255,0.55);flex:1}
+.qline.mod .qline-n{color:rgba(255,255,255,0.75);font-weight:500}
+.qline-p{font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);white-space:nowrap}
+.qline.mod .qline-p{color:var(--gold-l)}
+.qdiv{height:1px;background:rgba(255,255,255,0.06);margin:14px 0}
+.qrow{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px}
+.qrow .k{color:rgba(255,255,255,0.32);font-weight:300}
+.qrow .v{color:rgba(255,255,255,0.6);font-weight:500}
+.qtotal-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.qtotal-lbl{font-size:13px;font-weight:600;color:var(--white)}
+.qtotal-val{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:var(--gold-l);letter-spacing:-1.5px;line-height:1;transition:color .2s}
+.qnote{font-size:10.5px;color:rgba(255,255,255,0.25);font-weight:300;margin-bottom:16px;line-height:1.55}
+.qsave{display:flex;align-items:center;justify-content:space-between;background:var(--green-bg);border:1px solid var(--green-b);border-radius:9px;padding:10px 12px;margin-bottom:16px}
+.qsave-l{font-size:10.5px;color:rgba(255,255,255,0.45)}
+.qsave-v{font-size:16px;font-weight:700;color:var(--green);font-family:'Fraunces',serif}
+.qwarn{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.18);border-radius:7px;padding:9px 11px;margin-bottom:12px;font-size:10.5px;color:rgba(255,255,255,0.42);line-height:1.5;display:none}
+.qwarn.show{display:block}
+.qcta{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;margin-bottom:8px}
+.qcta:hover{background:var(--gold-l)}
+.qreset{width:100%;padding:9px;background:none;color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:9px;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .2s}
+.qreset:hover{border-color:rgba(255,255,255,0.16);color:rgba(255,255,255,0.55)}
+
+/* MOBILE QUOTE PANEL (floating button + drawer) */
+.qmobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid rgba(255,255,255,0.08);padding:12px 16px;z-index:150;align-items:center;justify-content:space-between;gap:12px}
+.qmob-total{display:flex;flex-direction:column}
+.qmob-lbl{font-size:9.5px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px}
+.qmob-val{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--gold-l);line-height:1}
+.qmob-btn{padding:10px 20px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.qdrawer{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--ink);border-top:1px solid var(--gold-border);border-radius:20px 20px 0 0;padding:24px 20px 32px;max-height:85vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s ease}
+.qdrawer.open{transform:translateY(0)}
+.qdrawer-handle{width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 20px}
+.qdrawer-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.4);width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qdrawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:190}
+.qdrawer-overlay.open{display:block}
+
+/* ROI */
+#roi{background:var(--ink3)}
+.roi-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px;align-items:start}
+.roi-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:24px;margin-bottom:12px}
+.roi-card:last-child{margin-bottom:0}
+.roi-card-label{font-size:9.5px;font-weight:700;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px}
+.roi-r{margin-bottom:16px}
+.roi-r:last-child{margin-bottom:0}
+.roi-r-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+.roi-r-name{font-size:11.5px;font-weight:500;color:rgba(255,255,255,0.6)}
+.roi-r-cost{font-family:'Fraunces',serif;font-size:18px;font-weight:700}
+.roi-r-cost.bad{color:var(--red)}
+.roi-r-cost.good{color:var(--green)}
+.roi-r-sub{font-size:10px;color:rgba(255,255,255,0.25);margin-bottom:7px;font-weight:300}
+.roi-track{height:14px;background:rgba(255,255,255,0.04);border-radius:100px;overflow:hidden}
+.roi-fill{height:100%;border-radius:100px;display:flex;align-items:center;padding-left:8px;font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.75);letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
+.roi-fill.bad{background:var(--red);width:100%}
+.roi-fill.good{background:var(--green);width:28%}
+.roi-save-card{background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r-lg);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.rsc-info{}
+.rsc-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+.rsc-sub{font-size:11px;color:rgba(255,255,255,0.32);font-weight:300;line-height:1.5}
+.rsc-num{font-family:'Fraunces',serif;font-size:40px;font-weight:900;color:var(--green);letter-spacing:-2px;line-height:1;white-space:nowrap}
+.rsc-period{font-size:9.5px;color:rgba(255,255,255,0.22);text-align:right;margin-top:3px;display:block}
+.be-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:24px;margin-bottom:12px}
+.be-label{font-size:9.5px;font-weight:700;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px}
+.be-steps{display:flex;flex-direction:column;gap:0}
+.be-step{display:flex;gap:12px;align-items:flex-start}
+.be-dc{display:flex;flex-direction:column;align-items:center}
+.be-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:700}
+.be-dot.done{background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green-b)}
+.be-dot.now{background:var(--gold);color:#fff}
+.be-dot.fut{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.07)}
+.be-line{width:1px;height:18px;background:rgba(255,255,255,0.06);margin:2px 0}
+.be-c{padding:3px 0 16px}
+.be-m{font-size:10.5px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:2px}
+.be-d{font-size:11.5px;color:rgba(255,255,255,0.65)}
+.be-d strong{color:var(--gold-l)}
+.small-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sm-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r);padding:16px}
+.sm-icon{font-size:20px;margin-bottom:8px;display:block}
+.sm-title{font-size:12.5px;font-weight:600;color:var(--white);margin-bottom:4px}
+.sm-desc{font-size:11px;color:rgba(255,255,255,0.32);line-height:1.6;font-weight:300}
+
+/* TRUST */
+#trust{background:var(--ink2)}
+.vip{background:linear-gradient(135deg,rgba(184,135,58,0.07),rgba(184,135,58,0.02));border:1px solid var(--gold-border);border-radius:var(--r-lg);padding:28px;display:flex;gap:20px;align-items:flex-start;margin-top:36px;margin-bottom:28px}
+.vip-ico{font-size:40px;flex-shrink:0;line-height:1}
+.vip-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--gold-l);margin-bottom:8px}
+.vip-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.75;font-weight:300}
+.vip-desc strong{color:rgba(255,255,255,0.75);font-weight:500}
+.g-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:44px}
+.gpill{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:14px 12px;text-align:center}
+.gpill-ico{font-size:22px;margin-bottom:7px;display:block}
+.gpill-t{font-size:10.5px;color:rgba(255,255,255,0.4);line-height:1.4}
+.gpill-t strong{display:block;color:rgba(255,255,255,0.75);font-weight:600;font-size:11.5px;margin-bottom:2px}
+.closing{text-align:center;padding:56px 28px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r-lg)}
+.closing-h{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,52px);font-weight:900;color:var(--white);letter-spacing:-2px;line-height:0.95;margin-bottom:14px}
+.closing-h em{font-style:italic;color:var(--gold-l)}
+.closing-sub{font-size:14px;color:rgba(255,255,255,0.33);max-width:400px;margin:0 auto 36px;font-weight:300;line-height:1.75}
+.ccontact{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.cccard{padding:16px 26px;border:1px solid rgba(255,255,255,0.07);border-radius:12px;text-align:left}
+.cclbl{font-size:9px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px}
+.ccval{font-size:13.5px;font-weight:600;color:var(--white)}
+.closing-nav-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.closing-nav-btn{padding:12px 26px;border-radius:9px;font-size:12.5px;font-weight:600;text-decoration:none;border:1.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);transition:all .2s}
+.closing-nav-btn:hover{border-color:rgba(255,255,255,0.22);color:var(--white)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.show{opacity:1;pointer-events:all}
+.modal{background:var(--ink);border:1px solid rgba(255,255,255,0.09);border-radius:var(--r-lg);padding:36px 32px;max-width:520px;width:100%;position:relative;max-height:92vh;overflow-y:auto}
+.modal-x{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.05);border:none;color:rgba(255,255,255,0.38);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.modal-eye{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.modal-h{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--white);margin-bottom:6px}
+.modal-sub{font-size:12.5px;color:rgba(255,255,255,0.36);margin-bottom:24px;line-height:1.6;font-weight:300}
+.msummary{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r);padding:18px;margin-bottom:20px}
+.msummary-title{font-size:9.5px;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;font-weight:600}
+.mline{display:flex;justify-content:space-between;font-size:11.5px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.mline:last-child{border-bottom:none;padding-top:10px;margin-top:3px}
+.mline .mk{color:rgba(255,255,255,0.42);font-weight:300}
+.mline .mv{color:rgba(255,255,255,0.75);font-weight:500}
+.mline.tot .mk{font-size:13px;font-weight:600;color:var(--white)}
+.mline.tot .mv{font-family:'Fraunces',serif;font-size:20px;color:var(--gold-l);font-weight:700}
+.mfield{margin-bottom:14px}
+.mfield label{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,0.45);margin-bottom:6px}
+.mfield input,.mfield textarea,.mfield select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:var(--r-sm);padding:10px 13px;font-size:12.5px;color:var(--white);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.mfield input::placeholder,.mfield textarea::placeholder{color:rgba(255,255,255,0.18)}
+.mfield input:focus,.mfield textarea:focus,.mfield select:focus{border-color:var(--gold-border)}
+.mfield textarea{resize:vertical;min-height:72px}
+.mfield select option{background:var(--ink);color:var(--white)}
+.msubmit{width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s}
+.msubmit:hover{background:var(--gold-l)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:20px;background:var(--ink);border:1px solid var(--gold-border);border-radius:12px;padding:14px 20px;font-size:12.5px;color:var(--white);box-shadow:0 16px 48px rgba(0,0,0,0.5);z-index:400;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-t{font-weight:600;color:var(--gold-l);margin-bottom:3px}
+.toast-b{color:rgba(255,255,255,0.45);font-size:11.5px;font-weight:300}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .prob-grid{grid-template-columns:1fr 1fr}
+  .plans-grid{grid-template-columns:1fr 1fr}
+  .builder-layout{grid-template-columns:1fr}
+  .qpanel{display:none}
+  .qmobile-bar{display:flex}
+  .qdrawer{display:block}
+  #builder{padding-bottom:96px}
+  .roi-layout{grid-template-columns:1fr}
+  .g-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:560px){
+  .prob-grid,.plans-grid,.small-cards{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;max-width:260px}
+  .hs{border-right:none;border-bottom:1px solid var(--border)}
+  .hs:last-child{border-bottom:none}
+  .vip{flex-direction:column;gap:14px}
+  .g-grid{grid-template-columns:1fr 1fr}
+  .ccontact{flex-direction:column;align-items:center}
+  .nav-in{padding:8px 16px;gap:10px}
+  .nav-q{font-size:10px;padding-left:10px}
+  .nav-q span{font-size:13px}
+  .roi-save-card{flex-direction:column;text-align:center}
+  .rsc-period{text-align:center}
+  .switcher{width:100%;flex-direction:column;gap:6px}
+  .sw-btn{width:100%;padding:10px 16px;text-align:center}
+  .qp-plans .qpp{flex:1 1 calc(50% - 5px);text-align:center}
+  .pc-amt{font-size:28px}
+  .vip{padding:20px}
+  .vip-ico{font-size:32px}
+  .closing{padding:40px 18px}
+  .be-step{align-items:flex-start}
+  .closing-nav-links{flex-direction:column;align-items:stretch}
+  .closing-nav-btn{text-align:center}
+}
+@media(max-width:480px){
+  .wrap{padding:0 16px}
+  .modal{padding:24px 18px}
+}
+@media(max-width:420px){
+  .bmod-head{padding:12px 14px;gap:8px}
+  .bmod-name{font-size:12px}
+  .bmod-ico{width:30px;height:30px;font-size:15px}
+  .bfeat{padding:10px 14px;flex-wrap:wrap}
+  .bfeat-right{margin-left:auto}
+  .fprice{font-size:10px}
+  .hero h1{letter-spacing:-1.5px}
+  .qmob-val{font-size:18px}
+}
+
+/* ═══════════════════════ SHARED SITE BAR ═══════════════════════ */
+.sitebar{background:#0E0E0E;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:200;font-family:'Inter',sans-serif}
+.sitebar-in{display:flex;align-items:center;justify-content:space-between;max-width:1160px;margin:0 auto;padding:10px 24px;gap:16px}
+.sitebar-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:#fff;white-space:nowrap;text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.sitebar-brand em{font-style:italic;color:#D4A85C}
+.sitebar-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sitebar-links::-webkit-scrollbar{display:none}
+.sitebar-link{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);text-decoration:none;border:1px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.sitebar-link:hover{color:rgba(255,255,255,0.8)}
+.sitebar-link.active{background:rgba(184,135,58,0.12);border-color:rgba(184,135,58,0.25);color:#D4A85C}
+.nav{top:49px}
+@media(max-width:640px){
+  .sitebar-in{padding:8px 16px;gap:10px}
+  .sitebar-brand{font-size:12px}
+  .sitebar-link{padding:6px 11px;font-size:11px}
+  .nav{top:41px}
+}
+</style>
+</head>
+<body>
+
+<!-- SITE BAR -->
+<div class="sitebar">
+  <div class="sitebar-in">
+    <a class="sitebar-brand" href="index.html">B4 <em>Restaurant POS</em></a>
+    <div class="sitebar-links">
+      <a class="sitebar-link" href="index.html">Proposal</a>
+      <a class="sitebar-link active" href="pricing.html">Pricing</a>
+      <a class="sitebar-link" href="features.html">Features</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner wrap">
+    <div class="eyebrow-pill">Investment Proposal · 2026</div>
+    <h1>Not a cost.<br><em>An asset.</em></h1>
+    <p class="hero-sub">Build your price interactively. Toggle modules on or off and see your exact quote update in real time.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">LKR 552k</div><div class="hs-l">3-Year Saving</div></div>
+      <div class="hs"><div class="hs-n">&lt;11mo</div><div class="hs-l">Break Even</div></div>
+      <div class="hs"><div class="hs-n">100%</div><div class="hs-l">Your Ownership</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">POS <em>Pricing</em></div>
+    <div class="nav-scroll">
+      <div class="nav-tabs" id="nav-tabs">
+        <button class="nt active" onclick="navTo('problems')">Why Custom?</button>
+        <button class="nt" onclick="navTo('plans')">Plans</button>
+        <button class="nt" onclick="navTo('builder')">Build Price</button>
+        <button class="nt" onclick="navTo('roi')">ROI</button>
+        <button class="nt" onclick="navTo('trust')">Guarantees</button>
+      </div>
+    </div>
+    <div class="nav-q"><span class="nav-q-lbl">Quote</span><span id="nav-total">LKR 0</span></div>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
+<div id="problems" class="sec">
+  <div class="wrap">
+    <div class="sec-eye">The Market Reality</div>
+    <h2 class="sec-h">Every option you looked at<br>has a <em>hidden trap.</em></h2>
+    <p class="sec-b">Most restaurant owners evaluate the same three options before making a decision. Each looks fine — until you look deeper.</p>
+    <div class="prob-grid">
+      <div class="prob-card">
+        <span class="prob-icon">☁️</span>
+        <div class="prob-name">Global Cloud POS</div>
+        <div class="prob-desc">Marketed as "free." Depends entirely on stable internet — and key modules sit behind monthly paywalls.</div>
+        <div class="prob-fail"><div class="prob-fail-lbl">⚠ The Trap</div><div class="prob-fail-txt">Internet drops on a Friday night. Cashiers can't bill. Customers walk out angry. Your busiest night becomes your worst.</div></div>
+      </div>
+      <div class="prob-card">
+        <span class="prob-icon">🏢</span>
+        <div class="prob-name">Corporate SaaS (OMAK etc.)</div>
+        <div class="prob-desc">Perpetual rental contracts. You pay every month but never actually own the software or your own data.</div>
+        <div class="prob-fail"><div class="prob-fail-lbl">⚠ The Trap</div><div class="prob-fail-txt">Stop paying and they lock you out remotely — overnight. Your menu, history and reports: gone. You're renting forever.</div></div>
+      </div>
+      <div class="prob-card">
+        <span class="prob-icon">💾</span>
+        <div class="prob-name">Cheap Local Software</div>
+        <div class="prob-desc">LKR 40k one-time systems from 2010. No cloud, no reports — data lives only on one hard drive.</div>
+        <div class="prob-fail"><div class="prob-fail-lbl">⚠ The Trap</div><div class="prob-fail-txt">The moment you leave the restaurant you're blind. No live sales, no void tracking, no accountability. PC dies — history is gone.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS -->
+<div id="plans" class="sec">
+  <div class="wrap">
+    <div class="sec-eye">Payment Structures</div>
+    <h2 class="sec-h">Four ways to get started.<br><em>Same system. Full ownership.</em></h2>
+    <p class="sec-b">Every plan delivers the complete POS with full source code. The only difference is how you pay.</p>
+    <div class="switcher">
+      <button class="sw-btn active" onclick="switchBilling('onetime',this)">One-Time Purchase</button>
+      <button class="sw-btn" onclick="switchBilling('subscription',this)">Monthly Subscription</button>
+    </div>
+    <div class="plans-grid" id="plans-grid"></div>
+  </div>
+</div>
+
+<!-- BUILDER -->
+<div id="builder" class="sec">
+  <div class="wrap">
+    <div class="sec-eye">Interactive Price Builder</div>
+    <h2 class="sec-h">Toggle features on or off.<br><em>Your quote updates live.</em></h2>
+    <p class="sec-b">Base modules are always included. Add optional modules and premium features to customise exactly what you need.</p>
+    <div class="builder-layout">
+      <div id="builder-mods"></div>
+      <!-- DESKTOP QUOTE PANEL -->
+      <div class="qpanel">
+        <div class="qp-h">Your Custom Quote</div>
+        <div class="qp-plans" id="qp-plans">
+          <button class="qpp active" data-plan="standard" onclick="setQPlan('standard',this)">Standard</button>
+          <button class="qpp" data-plan="premium" onclick="setQPlan('premium',this)">Premium</button>
+          <button class="qpp" data-plan="milestone" onclick="setQPlan('milestone',this)">Milestone</button>
+          <button class="qpp" data-plan="sub_basic" onclick="setQPlan('sub_basic',this)">Basic/mo</button>
+          <button class="qpp" data-plan="sub_standard" onclick="setQPlan('sub_standard',this)">Standard/mo</button>
+          <button class="qpp" data-plan="sub_premium" onclick="setQPlan('sub_premium',this)">Premium/mo</button>
+          <button class="qpp" data-plan="sub_own" onclick="setQPlan('sub_own',this)">Sub→Own/mo</button>
+        </div>
+        <div class="qlines" id="qlines"></div>
+        <div class="qdiv"></div>
+        <div class="qrow"><span class="k">Base system</span><span class="v" id="q-base">LKR 0</span></div>
+        <div class="qrow"><span class="k">Add-on modules</span><span class="v" id="q-addons">LKR 0</span></div>
+        <div class="qrow" id="q-maint-row" style="display:none"><span class="k">1yr maintenance</span><span class="v" style="color:var(--green)">Included</span></div>
+        <div class="qdiv"></div>
+        <div class="qtotal-row">
+          <span class="qtotal-lbl" id="q-total-lbl">Total</span>
+          <span class="qtotal-val" id="q-total">LKR 0</span>
+        </div>
+        <div class="qnote" id="q-note"></div>
+        <div class="qsave" id="q-save"><span class="qsave-l">vs SaaS (3 years)</span><span class="qsave-v" id="q-save-v">LKR 0</span></div>
+        <div class="qwarn" id="q-warn">⚠ Some core features are off — the system may not function correctly.</div>
+        <button class="qcta" onclick="openModal()">Get This Quote →</button>
+        <button class="qreset" onclick="resetBuilder()">↺ Reset to default</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE QUOTE BAR -->
+<div class="qmobile-bar" id="qmob-bar">
+  <div class="qmob-total">
+    <div class="qmob-lbl">Your quote</div>
+    <div class="qmob-val" id="qmob-val">LKR 0</div>
+  </div>
+  <button class="qmob-btn" onclick="openDrawer()">View Quote →</button>
+</div>
+
+<!-- DRAWER OVERLAY -->
+<div class="qdrawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- MOBILE QUOTE DRAWER -->
+<div class="qdrawer" id="qdrawer">
+  <div class="qdrawer-handle"></div>
+  <button class="qdrawer-close" onclick="closeDrawer()">✕</button>
+  <div class="qp-h">Your Custom Quote</div>
+  <div class="qp-plans" id="qp-plans-mob">
+    <button class="qpp active" data-plan="standard" onclick="setQPlanMob('standard',this)">Standard</button>
+    <button class="qpp" data-plan="premium" onclick="setQPlanMob('premium',this)">Premium</button>
+    <button class="qpp" data-plan="milestone" onclick="setQPlanMob('milestone',this)">Milestone</button>
+    <button class="qpp" data-plan="sub_basic" onclick="setQPlanMob('sub_basic',this)">Basic/mo</button>
+    <button class="qpp" data-plan="sub_standard" onclick="setQPlanMob('sub_standard',this)">Standard/mo</button>
+    <button class="qpp" data-plan="sub_premium" onclick="setQPlanMob('sub_premium',this)">Premium/mo</button>
+    <button class="qpp" data-plan="sub_own" onclick="setQPlanMob('sub_own',this)">Sub→Own/mo</button>
+  </div>
+  <div class="qlines" id="qlines-mob"></div>
+  <div class="qdiv"></div>
+  <div class="qrow"><span class="k">Base system</span><span class="v" id="q-base-mob">LKR 0</span></div>
+  <div class="qrow"><span class="k">Add-on modules</span><span class="v" id="q-addons-mob">LKR 0</span></div>
+  <div class="qrow" id="q-maint-row-mob" style="display:none"><span class="k">1yr maintenance</span><span class="v" style="color:var(--green)">Included</span></div>
+  <div class="qdiv"></div>
+  <div class="qtotal-row">
+    <span class="qtotal-lbl" id="q-total-lbl-mob">Total</span>
+    <span class="qtotal-val" id="q-total-mob">LKR 0</span>
+  </div>
+  <div class="qnote" id="q-note-mob"></div>
+  <div class="qsave" id="q-save-mob"><span class="qsave-l">vs SaaS (3 years)</span><span class="qsave-v" id="q-save-v-mob">LKR 0</span></div>
+  <div class="qwarn" id="q-warn-mob">⚠ Some core features are off — system may not function correctly.</div>
+  <button class="qcta" onclick="openModal();closeDrawer()">Get This Quote →</button>
+  <button class="qreset" onclick="resetBuilder();closeDrawer()">↺ Reset to default</button>
+</div>
+
+<!-- ROI -->
+<div id="roi" class="sec">
+  <div class="wrap">
+    <div class="sec-eye">Financial Breakdown</div>
+    <h2 class="sec-h">Pays for itself<br><em>in under a year.</em></h2>
+    <div class="roi-layout">
+      <div>
+        <div class="roi-card">
+          <div class="roi-card-label">3-Year Cost Comparison</div>
+          <div class="roi-r">
+            <div class="roi-r-top"><span class="roi-r-name">Corporate SaaS (OMAK + modules)</span><span class="roi-r-cost bad">LKR 864,000</span></div>
+            <div class="roi-r-sub">LKR 24,000/month × 36 months — you own nothing at the end</div>
+            <div class="roi-track"><div class="roi-fill bad">Ongoing Rental</div></div>
+          </div>
+          <div class="roi-r">
+            <div class="roi-r-top"><span class="roi-r-name">B4 Custom System (this proposal)</span><span class="roi-r-cost good">LKR 312,000</span></div>
+            <div class="roi-r-sub">LKR 240k setup + LKR 2,000 VPS × 36 months = LKR 312k total</div>
+            <div class="roi-track"><div class="roi-fill good">One-Time + Minimal Running Cost</div></div>
+          </div>
+        </div>
+        <div class="roi-save-card">
+          <div class="rsc-info">
+            <div class="rsc-title">Your 3-Year Estimated Saving</div>
+            <div class="rsc-sub">Money that stays in your restaurant — not paid to a software rental company every month.</div>
+          </div>
+          <div>
+            <div class="rsc-num">LKR 552k</div>
+            <span class="rsc-period">over 3 years</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="be-card">
+          <div class="be-label">Break-Even Timeline</div>
+          <div class="be-steps">
+            <div class="be-step"><div class="be-dc"><div class="be-dot done">✓</div><div class="be-line"></div></div><div class="be-c"><div class="be-m">Month 0 — Investment</div><div class="be-d">You invest <strong>LKR 240,000</strong>. System installed, staff trained, restaurant live on day one.</div></div></div>
+            <div class="be-step"><div class="be-dc"><div class="be-dot now">→</div><div class="be-line"></div></div><div class="be-c"><div class="be-m">Months 1–11 — Recovery</div><div class="be-d">Saving ~LKR 22,000/month vs SaaS (after VPS cost). After 11 months: <strong>LKR 242,000 saved</strong> — investment covered.</div></div></div>
+            <div class="be-step"><div class="be-dc"><div class="be-dot fut">∞</div></div><div class="be-c"><div class="be-m">Month 12 onwards — Pure Saving</div><div class="be-d"><strong>LKR 22,000 back in your pocket every month</strong> — compounding to LKR 552k over 3 years.</div></div></div>
+          </div>
+        </div>
+        <div class="small-cards">
+          <div class="sm-card"><span class="sm-icon">☁️</span><div class="sm-title">VPS Server</div><div class="sm-desc">~LKR 2,000/month paid directly to DigitalOcean. Not to me.</div></div>
+          <div class="sm-card"><span class="sm-icon">🛠️</span><div class="sm-title">Annual Maintenance</div><div class="sm-desc">LKR 30,000/year after free period. Patches, backups, support.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div id="trust" class="sec">
+  <div class="wrap">
+    <div class="sec-eye">Why Partner With Me</div>
+    <h2 class="sec-h">The promises that protect<br><em>your investment.</em></h2>
+    <div class="vip">
+      <div class="vip-ico">🤝</div>
+      <div>
+        <div class="vip-title">The Personal Support Promise</div>
+        <div class="vip-desc">When you call OMAK's support line you are <strong>ticket #8042 in a call centre queue</strong>. They don't care if your printer breaks at 7 PM on a Friday. When you partner with me, you have my direct mobile number. If your system has an emergency at dinner service, <strong>you call me directly — I remote in within minutes</strong>. That is a promise, not a policy.</div>
+      </div>
+    </div>
+    <div class="g-grid">
+      <div class="gpill"><span class="gpill-ico">📦</span><div class="gpill-t"><strong>Source Code Yours</strong>Full files on final payment</div></div>
+      <div class="gpill"><span class="gpill-ico">🚫</span><div class="gpill-t"><strong>No Licence Fees</strong>Pay once, own forever</div></div>
+      <div class="gpill"><span class="gpill-ico">🔓</span><div class="gpill-t"><strong>No Lock-in</strong>Switch devs any time</div></div>
+      <div class="gpill"><span class="gpill-ico">🗄️</span><div class="gpill-t"><strong>Your Data</strong>Always belongs to you</div></div>
+      <div class="gpill"><span class="gpill-ico">🍽️</span><div class="gpill-t"><strong>Free Migration</strong>Full menu imported</div></div>
+    </div>
+    <div class="closing">
+      <div class="closing-h">Ready to stop<br><em>renting your POS?</em></div>
+      <p class="closing-sub">Build your quote above or reach out directly. No commitment — just a conversation.</p>
+      <div class="ccontact">
+        <div class="cccard"><div class="cclbl">Developed by</div><div class="ccval">Nimesh Milan Dhananjaya</div></div>
+        <div class="cccard"><div class="cclbl">Direct Mobile</div><div class="ccval">0789 131 948</div></div>
+        <div class="cccard"><div class="cclbl">Architecture</div><div class="ccval" style="color:var(--gold-l)">B4 · Hybrid Sync</div></div>
+      </div>
+      <div class="closing-nav-links">
+        <a class="closing-nav-btn" href="index.html">← Back to Proposal</a>
+        <a class="closing-nav-btn" href="features.html">Explore All Features</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div class="modal-eye">Your Custom Quote</div>
+    <div class="modal-h">Let's make it official.</div>
+    <div class="modal-sub">Review your selection, fill in your details. I'll send a formal proposal to your WhatsApp within 24 hours.</div>
+    <div class="msummary" id="modal-summary"></div>
+    <div class="mfield"><label>Restaurant Name</label><input id="m-rest" placeholder="e.g. Marine Drive Restaurant"></div>
+    <div class="mfield"><label>Your Name</label><input id="m-name" placeholder="Owner or manager name"></div>
+    <div class="mfield"><label>WhatsApp / Phone</label><input id="m-phone" placeholder="07X XXX XXXX"></div>
+    <div class="mfield"><label>Preferred Plan</label>
+      <select id="m-plan">
+        <option>Standard Purchase — LKR 240,000</option>
+        <option>Premium Package — LKR 295,000 (Recommended)</option>
+        <option>Milestone Plan — LKR 260,000</option>
+        <option>Basic Monthly — LKR 7,000/mo</option>
+        <option>Standard Monthly — LKR 11,500/mo</option>
+        <option>Premium Monthly — LKR 13,000/mo</option>
+        <option>Subscribe → Own — LKR 9,500/mo</option>
+      </select>
+    </div>
+    <div class="mfield"><label>Questions or special requirements?</label><textarea id="m-notes" placeholder="e.g. specific printer model, number of terminals, launch date..."></textarea></div>
+    <button class="msubmit" onclick="submitQuote()">Send via WhatsApp →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="toast-t" id="t-title"></div><div class="toast-b" id="t-body"></div></div>
+
+<script>
+// ═══════════════════════
+// PRICING DATA — FIXED
+// Base prices reflect realistic Sri Lanka freelancer rates
+// Modules: auth/menu/orders/billing always included in base
+// Inventory, Reports, Cloud are optional add-ons
+// Feature prices are small increments on top of module price
+// ═══════════════════════
+
+const PLAN_BASE = {
+  standard: 240000,   // outright, no maintenance
+  premium:  295000,   // outright + 1yr maintenance included (maintenance worth ~40k so only ~22k more than standard)
+  milestone:260000,   // 4-stage payments, slightly higher for payment risk
+  sub_basic:    7000,  // per month - core POS only
+  sub_standard: 11500, // per month - full system, no source code
+  sub_premium:  13000, // per month - all modules + priority support
+  sub_own:      9500   // per month - subscribe then buy out at 18mo
+};
+
+const PLAN_MAINT = { premium: true };
+
+const PLAN_NOTES = {
+  standard:  '50% (LKR 120,000) upfront · 50% on final delivery',
+  premium:   '50% (LKR 147,500) upfront · 50% on delivery · 1yr maintenance included',
+  milestone: '4 payments of LKR 65,000 at each milestone',
+  sub_basic:    'LKR 7,000/month · Min. 6-month contract · Core POS only',
+  sub_standard: 'LKR 11,500/month · Min. 6-month contract · No upfront',
+  sub_premium:  'LKR 13,000/month · No lock-in after 12 months',
+  sub_own:      'LKR 9,500/month · After 18mo, buy source code for LKR 130,000'
+};
+
+// SaaS comparison: LKR 24,000/mo × 36 months = 864,000
+const SAAS_3YR = 864000;
+const VPS_3YR  = 2000 * 36; // 72,000
+
+const PLANS_DATA = {
+  onetime: [
+    {
+      id:'standard', tier:'Option A', name:'Standard',
+      desc:'Outright purchase. Full ownership from day one with 30 days free support.',
+      orig:null, price:240000, unit:'', payment:'50% upfront · 50% on delivery',
+      feats:['Full POS System (all 7 modules)','Full Source Code Handover','Free Menu Migration','On-site Installation & Training','30 Days Free Support',
+        {t:'Maintenance after 30 days: LKR 7.5k/incident',m:true}]
+    },
+    {
+      id:'premium', tier:'Option B', name:'Premium', recommended:true,
+      desc:'Everything in Standard plus 1 full year of maintenance — saving LKR 40,000 immediately.',
+      orig:335000, price:295000, unit:'', payment:'50% upfront · 50% on delivery',
+      feats:['Full POS System (all 7 modules)',{t:'1 Year Maintenance Included',b:true},'Full Source Code Handover','Free Menu Migration',
+        'Priority Bug-Fixes & Updates','Database Backups & Optimisation','Direct Mobile Support']
+    },
+    {
+      id:'milestone', tier:'Option C', name:'Milestone',
+      desc:'Same system split into 4 milestone payments. Pay as you see results delivered.',
+      orig:null, price:260000, unit:'', payment:'4 × LKR 65,000 across 6 weeks',
+      feats:['LKR 65,000 to start','LKR 65,000 at Week 2 — Orders live','LKR 65,000 at Week 4 — Reports live','LKR 65,000 at handover',
+        'Free Menu Migration','30 Days Free Support',{t:'No maintenance included',m:true}]
+    }
+  ],
+  subscription: [
+    {
+      id:'sub_basic', tier:'Starter', name:'Basic',
+      desc:'Core POS only — orders, billing, receipts. No inventory or analytics.',
+      orig:null, price:7000, unit:'/mo', payment:'Monthly · Cancel after 6 months',
+      feats:['Table & Order Management','Billing & Thermal Printing','Cash & Card Payments','Menu Management','Email Support',
+        {t:'No Inventory Module',m:true},{t:'No Reports',m:true}]
+    },
+    {
+      id:'sub_standard', tier:'Standard', name:'Standard Monthly',
+      desc:'Full system access. Everything working, no source code.',
+      orig:null, price:11500, unit:'/mo', payment:'Monthly · Cancel after 6 months',
+      feats:['Full POS System','Inventory & Alerts','Reports & Analytics','Cloud Sync Included','WhatsApp Support',
+        {t:'Source code not included',m:true}]
+    },
+    {
+      id:'sub_premium', tier:'Premium', name:'Premium Monthly', recommended:true,
+      desc:'Maximum flexibility. All modules, all features, priority support.',
+      orig:15000, price:13000, unit:'/mo', payment:'Monthly · No lock-in after 12 months',
+      feats:['Full POS System','All Modules & Analytics','Cloud Sync & Daily Backups',{t:'Priority + After-hours Support',b:true},
+        'Free Feature Updates','Option to buy outright at discount later']
+    },
+    {
+      id:'sub_own', tier:'Best Value', name:'Subscribe → Own',
+      desc:'Start on subscription. After 18 months, buy the source code at a big discount.',
+      orig:null, price:9500, unit:'/mo', payment:'18 months then LKR 130k buyout option',
+      feats:['Full System from Month 1','All Updates & Support','After 18mo: Buy code for LKR 130k','Total ~LKR 301,000 to own',
+        'Walk away any time before buyout']
+    }
+  ]
+};
+
+// ═══════════════════════
+// MODULES — FIXED PRICING
+// Base modules (0-3): included in all plans, no add-on cost
+// Non-base (4-6): add module price when toggled ON
+// Feature prices: small extras charged only when that specific feature is ON
+// ═══════════════════════
+const MODULES_DEF = [
+  {
+    id:'auth', icon:'🔐', name:'Authentication & Users', base:true, modPrice:0,
+    feats:[
+      {id:'login',    name:'Role-based Login',          desc:'Admin & Cashier separate access',    price:0,     on:true,  tier:'core'},
+      {id:'timeout',  name:'Session Timeout',           desc:'Auto-lock after inactivity',         price:0,     on:true,  tier:'core'},
+      {id:'staffmgmt',name:'Staff Management',          desc:'Add/edit/deactivate accounts in-app',price:0,     on:true,  tier:'core'},
+      {id:'actlog',   name:'Activity Log',              desc:'Every action logged with timestamp', price:0,     on:true,  tier:'pro'},
+    ]
+  },
+  {
+    id:'menu', icon:'🍽️', name:'Menu Management', base:true, modPrice:0,
+    feats:[
+      {id:'menucrud', name:'Full Menu CRUD',            desc:'Add, edit, delete items & prices',  price:0,     on:true,  tier:'core'},
+      {id:'cats',     name:'Categories',                desc:'Rice, Kottu, Drinks etc.',           price:0,     on:true,  tier:'core'},
+      {id:'photos',   name:'Item Photos',               desc:'Upload photo per menu item',         price:3000,  on:true,  tier:'wow'},
+      {id:'soldout',  name:'Sold Out Toggle',           desc:'Mark items unavailable instantly',   price:0,     on:true,  tier:'pro'},
+      {id:'pricehist',name:'Price History Log',         desc:'Log every price change with date',   price:2000,  on:false, tier:'pro'},
+    ]
+  },
+  {
+    id:'orders', icon:'🛒', name:'Order Management', base:true, modPrice:0,
+    feats:[
+      {id:'tableorder',name:'Table-Based Ordering',     desc:'Multi-table, add items, quantities', price:0,     on:true,  tier:'core'},
+      {id:'tablemap', name:'Visual Table Map',          desc:'Floor plan — free/occupied/billing', price:5000,  on:true,  tier:'wow'},
+      {id:'voids',    name:'Order Modification & Void', desc:'Edit orders with logged reason',     price:0,     on:true,  tier:'pro'},
+      {id:'notes',    name:'Item Notes',                desc:'"No chilli" prints on receipt',      price:0,     on:true,  tier:'pro'},
+      {id:'transfer', name:'Table Transfer',            desc:'Move order between tables',          price:2000,  on:false, tier:'wow'},
+      {id:'hold',     name:'Hold & Recall',             desc:'Park incomplete orders',             price:2000,  on:false, tier:'pro'},
+    ]
+  },
+  {
+    id:'billing', icon:'🧾', name:'Billing & Payments', base:true, modPrice:0,
+    feats:[
+      {id:'autobill', name:'Auto Bill Generation',      desc:'One-tap itemised bill with tax',     price:0,     on:true,  tier:'core'},
+      {id:'thermal',  name:'Thermal Receipt Printing',  desc:'80mm ESC/POS direct printing',       price:0,     on:true,  tier:'core'},
+      {id:'cashcard', name:'Cash & Card Payment',       desc:'Automatic change calculation',       price:0,     on:true,  tier:'core'},
+      {id:'discounts',name:'Discounts & Promos',        desc:'% or fixed, reason logged',          price:2000,  on:true,  tier:'pro'},
+      {id:'split',    name:'Split Bill',                desc:'Divide bill between customers',      price:3000,  on:false, tier:'wow'},
+      {id:'reprint',  name:'Bill Reprint',              desc:'Reprint any past receipt',           price:0,     on:true,  tier:'pro'},
+    ]
+  },
+  {
+    id:'inventory', icon:'📦', name:'Inventory Management', base:false, modPrice:20000,
+    feats:[
+      {id:'stock',    name:'Stock Item Tracking',       desc:'Qty, unit, minimum level',           price:0,     on:true,  tier:'core'},
+      {id:'alerts',   name:'Low Stock Alerts',          desc:'Dashboard alert when below minimum', price:0,     on:true,  tier:'core'},
+      {id:'autodeduct',name:'Auto Stock Deduction',     desc:'Deduct ingredients on order placed', price:5000,  on:false, tier:'wow'},
+      {id:'adjlog',   name:'Adjustment Log',            desc:'Every manual change logged',         price:0,     on:true,  tier:'pro'},
+      {id:'suppliers',name:'Supplier Directory',        desc:'Contacts linked to stock items',     price:2000,  on:false, tier:'pro'},
+    ]
+  },
+  {
+    id:'reports', icon:'📊', name:'Reports & Analytics', base:false, modPrice:18000,
+    feats:[
+      {id:'revenue',  name:'Revenue Reports',           desc:'Daily / weekly / monthly filtered',  price:0,     on:true,  tier:'core'},
+      {id:'bestsell', name:'Best-Selling Items',        desc:'Ranked by qty and revenue',          price:0,     on:true,  tier:'core'},
+      {id:'heatmap',  name:'Peak Hours Heatmap',        desc:'Visual busiest hours grid',          price:3000,  on:false, tier:'wow'},
+      {id:'cashperf', name:'Cashier Performance',       desc:'Orders, discounts, voids per staff', price:3000,  on:true,  tier:'pro'},
+      {id:'eod',      name:'End-of-Day Report',         desc:'One-click printable daily summary',  price:2000,  on:true,  tier:'pro'},
+      {id:'expenses', name:'Expense Tracking',          desc:'Log expenses for real profit view',  price:3000,  on:false, tier:'pro'},
+      {id:'export',   name:'Export PDF & CSV',          desc:'Any report exported for accountant', price:3000,  on:false, tier:'wow'},
+    ]
+  },
+  {
+    id:'cloud', icon:'☁️', name:'Cloud Sync & System', base:false, modPrice:15000,
+    feats:[
+      {id:'sync',     name:'Auto Cloud Sync',           desc:'Every transaction pushed to cloud',  price:0,     on:true,  tier:'wow'},
+      {id:'backup',   name:'Automatic Backups',         desc:'Daily local + cloud backup',         price:0,     on:true,  tier:'wow'},
+      {id:'settings', name:'Restaurant Settings',       desc:'Name, tax rate, receipt footer',     price:0,     on:true,  tier:'pro'},
+      {id:'update',   name:'Update Mechanism',          desc:'One-click app updates on startup',   price:2000,  on:false, tier:'pro'},
+      {id:'syncstat', name:'Sync Status Indicator',     desc:'Green/amber/red cloud indicator',    price:0,     on:true,  tier:'pro'},
+    ]
+  }
+];
+
+// ═══════════════════════
+// STATE
+// ═══════════════════════
+let billing = 'onetime';
+let qplan   = 'standard';
+let mods    = JSON.parse(JSON.stringify(MODULES_DEF));
+
+// ═══════════════════════
+// PLANS
+// ═══════════════════════
+function renderPlans(){
+  const grid = document.getElementById('plans-grid');
+  const plans = PLANS_DATA[billing];
+  grid.classList.toggle('cols-3', plans.length===3);
+  grid.innerHTML = plans.map(p=>`
+    <div class="pc ${p.recommended?'feat':''}">
+      ${p.recommended?'<div class="pc-rec">⭐ Most Popular</div>':''}
+      <div class="pc-tier">${p.tier}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-desc">${p.desc}</div>
+      <div class="pc-price-wrap">
+        <span class="pc-orig">${p.orig?'Was: LKR '+fmt(p.orig):'&nbsp;'}</span>
+        <div class="pc-row">
+          <span class="pc-cur">LKR</span>
+          <span class="pc-amt">${fmtK(p.price)}</span>
+          <span class="pc-unit">${p.unit||''}</span>
+        </div>
+        <div class="pc-pay">${p.payment}</div>
+        ${p.recommended&&!p.unit?'<span class="pc-save">Saves LKR 40k vs buying maintenance separately</span>':''}
+      </div>
+      <ul class="pc-feats">
+        ${p.feats.map(f=>{
+          if(typeof f==='string') return `<li><span class="${p.recommended?'chk g':'chk'}">✓</span>${f}</li>`;
+          if(f.b) return `<li class="hi"><span class="chk g">✓</span><strong>${f.t}</strong></li>`;
+          if(f.m) return `<li class="dim"><span class="xchk">—</span>${f.t}</li>`;
+          return `<li><span class="chk">✓</span>${f}</li>`;
+        }).join('')}
+      </ul>
+      <button class="pc-cta" onclick="pickPlan('${p.id}')">${p.recommended?'Select This Plan ✓':'Choose This Plan'}</button>
+    </div>
+  `).join('');
+}
+
+function switchBilling(type,btn){
+  billing=type;
+  document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPlans();
+}
+
+function pickPlan(id){
+  const planMap={standard:'standard',premium:'premium',milestone:'milestone',
+    sub_basic:'sub_basic',sub_standard:'sub_standard',sub_premium:'sub_premium',sub_own:'sub_own'};
+  qplan = planMap[id]||'standard';
+  syncPlanBtns();
+  renderBuilder();
+  updateQuote();
+  document.getElementById('builder').scrollIntoView({behavior:'smooth'});
+  toast('Plan selected','Scroll down to customise your features.');
+}
+
+// ═══════════════════════
+// BUILDER
+// ═══════════════════════
+function renderBuilder(){
+  const c = document.getElementById('builder-mods');
+  const isMonthly = qplan.startsWith('sub_');
+  c.innerHTML = mods.map((mod,mi)=>{
+    const anyOn = mod.feats.some(f=>f.on);
+    const modDisplayPrice = isMonthly ? Math.round(mod.modPrice*0.15) : mod.modPrice;
+    return `
+    <div class="bmod">
+      <div class="bmod-head" onclick="toggleMod(${mi})">
+        <div class="bmod-ico">${mod.icon}</div>
+        <div class="bmod-name">${mod.name}</div>
+        <div class="bmod-price">${mod.base?'<span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Inter">Included</span>':'LKR '+fmtK(modDisplayPrice)+(isMonthly?'/mo':'')}</div>
+        <button class="tog ${anyOn?'on':''}" onclick="event.stopPropagation();toggleMod(${mi})"></button>
+      </div>
+      <div class="bmod-feats ${anyOn?'':'hidden'}">
+        ${mod.feats.map((f,fi)=>{
+          const fDisplayPrice = isMonthly ? Math.round((f.price||0)*0.15) : (f.price||0);
+          return `
+        <div class="bfeat">
+          <div class="bfeat-left">
+            <button class="ftog ${f.on?'on':''}" onclick="toggleFeat(${mi},${fi})"></button>
+            <div class="bfeat-info">
+              <div class="bfeat-name">${f.name}</div>
+              <div class="bfeat-desc">${f.desc}</div>
+            </div>
+          </div>
+          <div class="bfeat-right">
+            <span class="fbadge ${f.tier}">${f.tier}</span>
+            <span class="fprice ${fDisplayPrice===0?'inc':''}">${fDisplayPrice===0?'Included':'+ LKR '+fmt(fDisplayPrice)+(isMonthly?'/mo':'')}</span>
+          </div>
+        </div>`;}).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleMod(mi){
+  const mod = mods[mi];
+  const anyOn = mod.feats.some(f=>f.on);
+  // Don't allow turning off base modules completely — just warn
+  if(mod.base && anyOn){
+    toast('Core Module','Base modules cannot be fully removed — they are part of every plan.');
+    return;
+  }
+  const newState = !anyOn;
+  mod.feats.forEach(f=>f.on=newState);
+  renderBuilder();
+  updateQuote();
+}
+
+function toggleFeat(mi,fi){
+  const f = mods[mi].feats[fi];
+  // Prevent turning off core features in base modules
+  if(mods[mi].base && f.tier==='core' && f.on){
+    toast('Core Feature','This feature is essential for the system to work. It cannot be removed.');
+    return;
+  }
+  f.on = !f.on;
+  renderBuilder();
+  updateQuote();
+}
+
+// ═══════════════════════
+// QUOTE CALC — FIXED LOGIC
+// Base plan price includes all 4 base modules fully
+// Non-base modules (inventory, reports, cloud): add modPrice when ANY feature is on
+// Feature-level paid extras: add price for each ON paid feature
+// No double-counting: modPrice charged once per module, then extras on top
+// ═══════════════════════
+function calcQuote(){
+  const isMonthly = qplan.startsWith('sub_');
+  const base = PLAN_BASE[qplan];
+  let addonTotal = 0;
+  let lines = [];
+
+  mods.forEach(mod=>{
+    const activeFeats = mod.feats.filter(f=>f.on);
+    if(activeFeats.length===0) return;
+
+    if(!mod.base){
+      // Non-base module: charge module price once
+      // For monthly plans, add-on modules are billed at ~15% of their one-time price per month
+      const modCost = isMonthly ? Math.round(mod.modPrice * 0.15) : mod.modPrice;
+      addonTotal += modCost;
+      // Then add any paid feature extras on top (features billed at ~15%/mo too)
+      const featExtra = activeFeats.reduce((s,f)=>{
+        const fp = isMonthly ? Math.round((f.price||0) * 0.15) : (f.price||0);
+        return s+fp;
+      },0);
+      addonTotal += featExtra;
+      lines.push({
+        name: mod.icon+' '+mod.name,
+        price: modCost + featExtra,
+        mod: true
+      });
+    } else {
+      // Base module: only charge paid feature extras
+      const featExtra = activeFeats.reduce((s,f)=>{
+        const fp = isMonthly ? Math.round((f.price||0) * 0.15) : (f.price||0);
+        return s+fp;
+      },0);
+      if(featExtra>0){
+        addonTotal += featExtra;
+        lines.push({
+          name: mod.icon+' '+mod.name+' extras',
+          price: featExtra,
+          mod: false
+        });
+      }
+    }
+  });
+
+  const total = base + addonTotal;
+
+  // Savings: SaaS 3yr cost vs (total + VPS 3yr). Capped at 0 minimum. Only meaningful for one-time plans.
+  const savings = isMonthly ? 0 : Math.max(0, SAAS_3YR - (total + VPS_3YR));
+
+  // Core features off warning
+  const coreOff = mods.slice(0,4).some(mod=>
+    mod.feats.some(f=>f.tier==='core' && !f.on)
+  );
+
+  return {base, addonTotal, total, lines, savings, isMonthly,
+    maintenance: PLAN_MAINT[qplan]||false, coreOff};
+}
+
+function updateQuote(){
+  const q = calcQuote();
+  const totalStr = q.isMonthly ? 'LKR '+fmt(q.total)+'/mo' : 'LKR '+fmt(q.total);
+  const savStr   = 'LKR '+fmtK(q.savings);
+  const baseStr  = 'LKR '+fmt(q.base);
+  const addStr   = q.addonTotal>0 ? '+ LKR '+fmt(q.addonTotal) : 'LKR 0';
+  const linesHTML = q.lines.length===0
+    ? `<div class="qline"><span class="qline-n" style="color:rgba(255,255,255,0.25);font-style:italic">No add-on modules selected</span></div>`
+    : q.lines.map(l=>`<div class="qline ${l.mod?'mod':''}"><span class="qline-n">${l.name}</span><span class="qline-p">LKR ${fmt(l.price)}</span></div>`).join('');
+
+  // Desktop panel
+  document.getElementById('qlines').innerHTML = linesHTML;
+  document.getElementById('q-base').textContent = baseStr;
+  document.getElementById('q-addons').textContent = addStr;
+  document.getElementById('q-maint-row').style.display = q.maintenance?'flex':'none';
+  document.getElementById('q-total-lbl').textContent = q.isMonthly?'Monthly':'Total';
+  document.getElementById('q-total').textContent = totalStr;
+  document.getElementById('q-note').textContent = PLAN_NOTES[qplan]||'';
+  document.getElementById('q-save').style.display = q.isMonthly?'none':'flex';
+  document.getElementById('q-save-v').textContent = savStr;
+  document.getElementById('q-warn').classList.toggle('show', q.coreOff);
+
+  // Mobile bar
+  document.getElementById('qmob-val').textContent = totalStr;
+  document.getElementById('nav-total').textContent = totalStr;
+
+  // Mobile drawer (mirror)
+  document.getElementById('qlines-mob').innerHTML = linesHTML;
+  document.getElementById('q-base-mob').textContent = baseStr;
+  document.getElementById('q-addons-mob').textContent = addStr;
+  document.getElementById('q-maint-row-mob').style.display = q.maintenance?'flex':'none';
+  document.getElementById('q-total-lbl-mob').textContent = q.isMonthly?'Monthly':'Total';
+  document.getElementById('q-total-mob').textContent = totalStr;
+  document.getElementById('q-note-mob').textContent = PLAN_NOTES[qplan]||'';
+  document.getElementById('q-save-mob').style.display = q.isMonthly?'none':'flex';
+  document.getElementById('q-save-v-mob').textContent = savStr;
+  document.getElementById('q-warn-mob').classList.toggle('show', q.coreOff);
+}
+
+function setQPlan(plan,btn){
+  qplan=plan;
+  syncPlanBtns();
+  renderBuilder();
+  updateQuote();
+}
+
+function setQPlanMob(plan,btn){
+  qplan=plan;
+  syncPlanBtns();
+  renderBuilder();
+  updateQuote();
+}
+
+function syncPlanBtns(){
+  document.querySelectorAll('#qp-plans .qpp, #qp-plans-mob .qpp').forEach(b=>{
+    b.classList.toggle('active', b.dataset.plan===qplan);
+  });
+}
+
+function resetBuilder(){
+  mods = JSON.parse(JSON.stringify(MODULES_DEF));
+  qplan = 'standard';
+  syncPlanBtns();
+  renderBuilder();
+  updateQuote();
+  toast('Reset','Builder reset to default configuration.');
+}
+
+// ═══════════════════════
+// DRAWER (MOBILE)
+// ═══════════════════════
+function openDrawer(){
+  document.getElementById('qdrawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  document.getElementById('qdrawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ═══════════════════════
+// MODAL
+// ═══════════════════════
+function openModal(){
+  const q = calcQuote();
+  const totalStr = q.isMonthly?'LKR '+fmt(q.total)+'/mo':'LKR '+fmt(q.total);
+  document.getElementById('modal-summary').innerHTML = `
+    <div class="msummary-title">Quote Summary</div>
+    ${q.lines.map(l=>`<div class="mline"><span class="mk">${l.name}</span><span class="mv">LKR ${fmt(l.price)}</span></div>`).join('')}
+    <div class="mline"><span class="mk">Base plan</span><span class="mv">LKR ${fmt(q.base)}</span></div>
+    <div class="mline tot"><span class="mk">${q.isMonthly?'Monthly':'Total'}</span><span class="mv">${totalStr}</span></div>`;
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+function submitQuote(){
+  const q = calcQuote();
+  const rest  = document.getElementById('m-rest').value||'Restaurant';
+  const name  = document.getElementById('m-name').value||'Customer';
+  const plan  = document.getElementById('m-plan').value;
+  const notes = document.getElementById('m-notes').value;
+  const feats = mods.flatMap(m=>m.feats.filter(f=>f.on).map(f=>m.icon+' '+f.name)).join(', ');
+  const total = q.isMonthly?'LKR '+fmt(q.total)+'/mo':'LKR '+fmt(q.total);
+  const msg = encodeURIComponent(
+    `Hi Nimesh, I'd like a POS quote.\n\nRestaurant: ${rest}\nName: ${name}\nPlan: ${plan}\nTotal: ${total}\nFeatures: ${feats}\nNotes: ${notes||'None'}`
+  );
+  window.open(`https://wa.me/94789131948?text=${msg}`,'_blank');
+  closeModal();
+  toast('Sent! 🎉','Opening WhatsApp with your quote. Expect a reply within 24 hours.');
+}
+
+// ═══════════════════════
+// UTILS
+// ═══════════════════════
+function fmt(n){return Number(n).toLocaleString('en-LK')}
+function fmtK(n){
+  if(n>=1000000) return (n/1000000).toFixed(1).replace('.0','')+'M';
+  if(n>=1000)    return Math.round(n/1000)+'k';
+  return String(n);
+}
+function toast(title,body){
+  document.getElementById('t-title').textContent=title;
+  document.getElementById('t-body').textContent=body;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4000);
+}
+function navTo(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const navH=document.querySelector('.nav')?.offsetHeight||0;
+  const top=el.getBoundingClientRect().top + window.scrollY - navH - 8;
+  window.scrollTo({top, behavior:'smooth'});
+}
+
+// Nav active on scroll
+const SECS=['problems','plans','builder','roi','trust'];
+const navEl=document.querySelector('.nav');
+
+function setActiveTab(i){
+  const tabs=document.querySelectorAll('#nav-tabs .nt');
+  tabs.forEach((t,j)=>t.classList.toggle('active',j===i));
+  const activeTab=tabs[i];
+  if(activeTab){
+    const container=document.getElementById('nav-tabs');
+    const cRect=container.getBoundingClientRect();
+    const tRect=activeTab.getBoundingClientRect();
+    if(tRect.left<cRect.left || tRect.right>cRect.right){
+      activeTab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    }
+  }
+}
+
+function updateActiveNav(){
+  const navH = navEl ? navEl.offsetHeight : 0;
+  const probe = navH + 20; // point just below sticky nav
+  let activeIdx = 0;
+  for(let i=0;i<SECS.length;i++){
+    const el=document.getElementById(SECS[i]);
+    if(!el) continue;
+    const rect=el.getBoundingClientRect();
+    if(rect.top<=probe) activeIdx=i;
+  }
+  // If scrolled to bottom of page, force last section active
+  if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2){
+    activeIdx = SECS.length-1;
+  }
+  setActiveTab(activeIdx);
+}
+
+let navTicking=false;
+window.addEventListener('scroll',()=>{
+  if(!navTicking){
+    navTicking=true;
+    requestAnimationFrame(()=>{updateActiveNav();navTicking=false;});
+  }
+});
+updateActiveNav();
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+// INIT
+renderPlans();
+renderBuilder();
+updateQuote();
+</script>
+</body>
+</html>
